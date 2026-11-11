@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iris Liu — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Alice&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=20261111n">
+<style>
+.hero{padding:80px 0;display:flex;flex-direction:column;gap:40px}
+.hero h1{color:var(--olive)}
+/* Photo marquee (Figma Frame 328). Each photo is a 240px-wide box whose rounded background IS the photo,
+   so all four 8px corners are always drawn - no child image that a browser could fail to clip. */
+.reel{padding:40px 0;overflow:hidden;display:flex;align-items:flex-end}
+.reel-track{display:flex;gap:8px;align-items:flex-end;width:max-content;will-change:transform}
+.reel-track span{flex:none;width:240px;height:calc(var(--h) * 1px);border-radius:8px;background:#EDE6D3 var(--img) center/cover no-repeat}
+@media (max-width:640px){.reel-track span{width:160px;height:calc(var(--h) * .6667px)}}
+
+</style>
+</head>
+<body>
+<div data-part="nav" data-active="home.html"></div>
+
+<main>
+  <section class="hero">
+    <h1 class="display center">Hello I am Iris Liu</h1>
+    <div class="tw-line"><span data-typewriter='["I was a Florist","Now..I gonna be a Designer"]'></span></div>
+    <div class="reel" aria-hidden="true"><div class="reel-track" id="track"></div></div>
+  </section>
+
+  <section style="padding:40px 0 20px"><div data-part="plant"></div></section>
+
+  <div data-part="cta"></div>
+</main>
+<div data-part="connect"></div>
+<div data-part="footer"></div>
+
+<script src="js/site.js?v=20261111n"></script>
+<script>
+// Landing photos - Figma "Frame 328", in that order. Files are pre-cropped to the Figma crops at 2x.
+const H = [221,313,271,174,180,248,336,289,318,180,216,252,180,266];
+const track = document.getElementById('track');
+const set = H.map((h, i) => `<span style="--h:${h};--img:url(${mediaURL(`img/hero-crop/h${i + 1}.jpg`)})"></span>`).join('');
+track.innerHTML = set + set;                       // two copies so the loop is seamless
+// Photos enter from the right and drift left at a steady, slow speed.
+const SPEED = 40;                                  // px per second
+let x = 0, last = performance.now();
+function step(now) {
+  const half = track.scrollWidth / 2;
+  x = (x + SPEED * Math.min(64, now - last) / 1000) % half; last = now;
+  track.style.transform = `translate3d(${-x}px,0,0)`;
+  requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+</script>
+</body>
+</html>

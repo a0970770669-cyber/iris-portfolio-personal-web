@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Iris Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Alice&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=20261111n">
+<style>
+.form{display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding:40px 0;width:500px;max-width:calc(100vw - 32px)}
+.field{display:flex;align-items:center;gap:8px;width:100%;min-height:65px;padding:0 24px;background:var(--cream-2);border:1px solid var(--olive);border-radius:16px;transition:box-shadow .2s}
+.field:focus-within{box-shadow:0 0 0 3px rgba(105,105,49,.15)}
+.field.area{align-items:flex-start;padding-top:20px;padding-bottom:20px}
+.field img{width:24px;height:24px;flex:none}
+.field img.mail{width:22px;height:16.5px;margin:0 1px}
+.field input,.field textarea{flex:1;border:0;outline:0;background:none;color:var(--dark);font-size:16px;line-height:20.8px;letter-spacing:-.1px}
+.field textarea{resize:vertical;min-height:21px;height:21px;max-height:220px}
+.field ::placeholder{color:var(--olive);opacity:1}
+.form .pill{margin-top:0}
+.form .pill img{width:16px;height:16px}
+.form .note{align-self:center;font-size:14px;min-height:18px;color:var(--olive)}
+.tw-wrap{padding:40px 0 20px}
+</style>
+</head>
+<body>
+<div data-part="nav" data-active="contact.html"></div>
+
+<main style="padding-top:40px">
+  <div data-part="cta"></div>
+
+  <section class="cta reveal">
+    <h2 class="display center" style="color:var(--dark)">Or Leave me a Message.</h2>
+    <form class="form" id="form">
+      <label class="field"><img src="img/icons/person.svg" alt=""><input name="name" placeholder="Name" autocomplete="name" required></label>
+      <label class="field"><img class="mail" src="img/icons/mail-sm.svg" alt=""><input name="email" type="email" placeholder="mail" autocomplete="email" required></label>
+      <label class="field area"><img src="img/icons/message.svg" alt=""><textarea name="message" placeholder="Messenge" rows="1" required></textarea></label>
+      <button class="pill" type="submit"><img src="img/icons/sent.svg" alt="">Sent</button>
+      <p class="note" id="note"></p>
+    </form>
+  </section>
+
+  <section class="tw-wrap"><div class="tw-line"><span data-typewriter='["I was a Florist","Now..I gonna be a Designer"]'></span></div></section>
+
+  <section style="padding:20px 0"><div data-part="plant"></div></section>
+</main>
+<div data-part="connect"></div>
+<div data-part="footer"></div>
+<script src="js/site.js?v=20261111n"></script>
+<script>
+// Demo: there is no server yet, so the form opens the visitor's mail app with the message filled in.
+const form = document.getElementById('form');
+form.querySelector('textarea').addEventListener('input', e => { e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; });
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const d = new FormData(form);
+  const body = `${d.get('message')}\n\n— ${d.get('name')} (${d.get('email')})`;
+  location.href = `mailto:${SITE.mail}?subject=${encodeURIComponent('Hello from ' + d.get('name'))}&body=${encodeURIComponent(body)}`;
+  document.getElementById('note').textContent = 'Thank you! Your mail app should open now.';
+});
+</script>
+</body>
+</html>

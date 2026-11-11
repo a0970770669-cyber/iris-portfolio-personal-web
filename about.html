@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About me — Iris Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Alice&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=20261111n">
+<style>
+/* intro (Figma 12:538) */
+.intro{padding:80px var(--pad);display:flex;flex-direction:column;gap:40px;max-width:1440px;margin:0 auto;color:var(--brown)}
+.intro .row{display:flex;justify-content:space-between;align-items:flex-start;gap:40px}
+.intro .who{display:flex;align-items:center;gap:20px}
+.intro .who h1{font:italic 90px/96px var(--serif);letter-spacing:-2px;white-space:nowrap}
+.intro .who img{width:160px;height:180px;object-fit:cover;border-radius:16px}
+.intro .bio{width:520px;display:flex;flex-direction:column;gap:20px;font-size:16px;line-height:1.5;letter-spacing:-.1px}
+.intro .based{display:flex;flex-direction:column;align-items:flex-end;gap:16px;font-size:15px;line-height:20px}
+.intro .based .pill{font-size:15px}
+
+/* chronology - pinned, one stage at a time (Figma 12:549, row = component "Chapter 1" 12:1110) */
+.chrono{background:var(--olive);color:var(--cream);position:relative}
+.chrono .pin{position:sticky;top:0;height:100vh;min-height:620px;padding:96px 80px 56px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.chrono .head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.chrono .head h2{font:400 90px/96px var(--serif);letter-spacing:-2px}
+.chrono .head p{font-size:20px;line-height:26px;letter-spacing:-.2px;margin-top:20px;max-width:720px}
+.stage{position:relative;height:345px;width:1280px;max-width:100%}
+.chapter{position:absolute;inset:0;display:flex;align-items:center;gap:4px;padding:40px 0;pointer-events:none}
+.chapter.on{pointer-events:auto}
+.photos{flex:0 0 880px;width:880px;overflow:hidden}
+.photos .track{display:flex;gap:8px;align-items:flex-start;width:max-content;will-change:transform}
+.photos figure{flex:none;width:240px;height:180px;border-radius:8px;overflow:hidden}
+.photos figure{position:relative;clip-path:inset(0 round 8px)}
+.chapter .photos{opacity:0;transition:opacity .6s}
+.chapter.on .photos{opacity:1}
+.photos img{position:absolute;max-width:none}
+.photos img.cover{inset:0;width:100%;height:100%;object-fit:cover}
+.chapter .rule{flex:none;width:9px;height:267px;opacity:0;transition:opacity .5s}
+.chapter.on .rule{opacity:1}
+.chapter .txt{flex:1;min-width:0;padding:20px;display:flex;flex-direction:column;gap:8px}
+.chapter .txt > *{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.chapter.on .txt > *{opacity:1;transform:none}
+.chapter.on .txt > :nth-child(2){transition-delay:.08s}
+.chapter.on .txt > :nth-child(3){transition-delay:.16s}
+.chapter .yr{font-size:14px;line-height:18px}
+.chapter h3{font:400 28px/34px var(--serif)}
+.chapter p{font-size:16px;line-height:1.5;letter-spacing:-.1px}
+.progress{display:flex;align-items:center;gap:14px;font-size:14px;letter-spacing:.6px}
+.progress .bar{width:160px;height:1px;background:rgba(255,253,239,.3);position:relative}
+.progress .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--cream);width:0}
+
+/* areas (Figma 12:584) */
+.areas{padding:80px;max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:60px}
+.areas h2{font:400 90px/96px var(--serif);letter-spacing:-2px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,630px));gap:60px 20px;align-items:start}
+.card{border:1px solid var(--olive);border-radius:16px;padding:32px;height:388px;display:flex;flex-direction:column;justify-content:space-between}
+.card.ai{height:auto;justify-content:flex-start;gap:20px}
+.card h3{font:400 47px/50px var(--serif);letter-spacing:-.94px}
+.card .txt{font-size:16px;line-height:1.5;letter-spacing:-.1px}
+.kit b{display:block;font:500 14px/18px var(--sans);letter-spacing:.6px;margin-bottom:8px}
+.kit div{display:flex;gap:8px;flex-wrap:wrap}
+.badges{display:flex;gap:20px;align-items:center}
+.badges img{height:110px;object-fit:cover;filter:drop-shadow(2px 2px 10px rgba(0,0,0,.25))}
+.badges img:nth-child(-n+2){width:160px}
+.badges img:nth-child(3){width:121px}
+
+@media (max-width:1300px){
+  .stage{width:100%}
+  .photos{flex:1 1 auto;width:auto;min-width:0}
+  .chapter .txt{flex:0 0 340px}
+}
+@media (max-width:1100px){
+  .intro .row{flex-direction:column}
+  .intro .bio{width:auto}
+  .intro .who h1{font-size:60px;line-height:64px}
+  .chrono .pin{position:relative;height:auto;min-height:0;padding:72px 24px;gap:40px}
+  .chrono .head{flex-direction:column;align-items:flex-start}
+  .progress{display:none}
+  .stage{height:auto;display:flex;flex-direction:column}
+  .chapter{position:relative;inset:auto;pointer-events:auto}
+  .chapter .rule,.chapter .photos{opacity:1}
+  .chapter .txt > *{opacity:1;transform:none}
+  .chrono .head h2,.areas h2{font-size:56px;line-height:60px}
+  .chapter{flex-direction:column-reverse;align-items:stretch;padding:24px 0;gap:16px}
+  .chapter .rule{display:none}
+  .chapter .txt{flex:none;padding:0;border-left:1px solid rgba(250,248,241,.5);padding-left:16px}
+  .photos{margin-right:-24px;overflow-x:auto;scrollbar-width:none}
+  .photos .track{transform:none!important}
+  .photos figure{width:180px;height:135px}
+  .areas{padding:64px 24px}
+  .grid{grid-template-columns:1fr}
+  .card{height:auto;gap:28px}
+  .badges{gap:10px}
+  .badges img,.badges img:nth-child(-n+2),.badges img:nth-child(3){width:30%;height:auto;aspect-ratio:160/110;flex:1 1 0;min-width:0}
+  .intro .who img{width:120px;height:135px}
+}
+</style>
+</head>
+<body>
+<div data-part="nav" data-active="about.html"></div>
+
+<main>
+  <section class="intro">
+    <div class="row">
+      <div class="who"><h1>Iris Liu</h1><img src="img/portrait.png" alt="Iris Liu portrait"></div>
+      <div class="bio">
+        <p>Hi I am Iris 劉冠萱<br>我的個性積極、用心負責任、善良（有時候會有點俏皮），喜歡探索生活、分享生活，下班後的興趣是健身重訓、最期待的事情是安排下一趟可以探索更多城市文化的旅遊。</p>
+        <p>過去四年在台北花藝設計公司製作花藝時，接觸許多異材質結合的媒材設計，從觀賞短暫新鮮的花朵到長期擺放的植物裝置藝術，從民眾到與不同的商業領域合作，讓我從生活美學為起點，一次次的探索更多與使用者思考、生活體驗相關的事物，並結合不同的故事背景製作每一次的設計，因此開始對 UI / UX 設計感到好奇並學習透過數位媒體表達更多層次的想法。</p>
+      </div>
+    </div>
+    <div class="based"><span>Taipei, Taiwan</span><a class="pill" href="#" title="Resume link coming soon">查閱正式履歷</a></div>
+  </section>
+
+  <section class="chrono" id="chrono">
+    <div class="pin">
+      <div class="head">
+        <div>
+          <h2>Chronology of Practice</h2>
+          <p>在不同階段滋養我的成長痕跡，每一次的創作都是不同層次的思維疊加</p>
+        </div>
+      </div>
+      <div class="stage" id="timeline"></div>
+      <div class="progress"><span id="cnum">01</span><span class="bar"><i id="cbar"></i></span><span id="ctot">05</span></div>
+    </div>
+  </section>
+
+<section class="areas">
+    <h2 class="reveal">Areas of Practice</h2>
+    <div class="grid">
+      <article class="card reveal">
+        <h3>UI / UX</h3>
+        <div class="txt"><p>建構完整並可延續優化的設計，每一份專案都遵循 Design Thinking 發想設計。</p><p>從專案背景故事、競品搜集與分析至使用者體驗研究、User Needs 以及規範出優化範圍和資訊架構直到最後的 Wireframe, Design system 和高保真設計圖，過程中每一步都非常扎實。</p></div>
+        <div class="kit"><b>TOOLKIT</b><div><span class="pill">Figma</span><span class="pill">Claude code</span><span class="pill">User research</span><span class="pill">Wireframe</span><span class="pill">IA</span><span class="pill">Userflow</span></div></div>
+      </article>
+      <article class="card ai reveal">
+        <h3>AI Skills</h3>
+        <div class="badges"><img src="img/ai1.png" alt="Introduction to Claude Cowork certificate"><img src="img/ai2.png" alt="Claude 101 certificate"><img src="img/ai3.png" alt="Google Cloud Introduction to Generative AI badge"></div>
+        <p class="txt">AI 工具發展快速的時代，不斷了解並學習使用新工具，幫助我提升作品品質及完成效率。</p>
+        <div class="kit"><b>TOOLKIT</b><div><span class="pill">Claude</span><span class="pill">Google stitch</span><span class="pill">ChatGPT</span></div></div>
+      </article>
+      <article class="card reveal">
+        <h3>Fashion Design</h3>
+        <div class="txt"><p>天馬行空的發想與日常真實穿戴的衝突。</p><p>在每一季快速替換前，我們搜集下一季流行的色彩計劃資料與服裝結構的挑戰，在日常服裝之間創造更多實驗性與故事性的作品。</p></div>
+        <div class="kit"><b>TOOLKIT</b><div><span class="pill">Pinterest</span><span class="pill">Hand made</span></div></div>
+      </article>
+      <article class="card reveal">
+        <h3>Floral Design</h3>
+        <p class="txt">花朵如同布料般擁有不同色彩、光澤及質地，透過一次次的搭配、嘗試、紀錄，讓植物融入日常的時間更多、接觸到的民眾和用途更廣，進而在創作與生活與商業中達到一個平衡。</p>
+        <div class="kit"><b>TOOLKIT</b><div><span class="pill">Pinterest</span><span class="pill">Hand made</span><span class="pill">Concept</span></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section style="padding:20px 0"><div data-part="plant"></div></section>
+  <div data-part="cta"></div>
+</main>
+<div data-part="connect"></div>
+<div data-part="footer"></div>
+
+<script src="js/site.js?v=20261111n"></script>
+<script>
+// Photos per stage, in the order arranged in Figma (About me > Chronology rows; source strips Frame 322-326).
+// Each entry: [height%, left%, top%, width%] copied from the Figma image crop, or 0 = fill (cover).
+const C = (h, l, t, w = 100) => [h, l, t, w];
+const CHAPTERS = [
+  {yr:'2018 - 2019', title:'使用異材質結合時尚設計 ESG 永續發展的探討實作', text:'2018 參展台南老爺行舉辦的「七迌人」展覽，利用環保素材石頭紙製作時尚服裝，深度揭示了石頭紙在現代生活與時尚設計中的應用。',
+   crops:[0,0,0,0,0,0,0,0,0]},
+  {yr:'2021 - 2022', title:'探索不同質地的搭配', text:'畢業後開始探索與練習不同質地的搭配與視覺的協調。',
+   crops:[C(177.78,.05,-60.85),C(177.78,-.02,-52.4),C(133.33,-.08,-20.67),C(133.33,0,-21.78),0,C(204.83,-15.24,-80.3,115.22),C(178,0,-67.72,100.1),C(177.78,0,-50.83),C(233.33,-5.5,-82.95,131.25)]},
+  {yr:'2023 11月', title:'裝置藝術實作 倒掛聖誕樹', text:'2023 年末為服飾品牌 DOE 製作以聖誕樹為主題意象的裝置聖誕樹，以植物與異材質結合為主題製作聖殿節裝置藝術。',
+   crops:[C(257,-18.16,-78.5,136.31),C(232.53,-.12,-29.37),0,0,C(177.78,0,-51.11),C(177.82,.16,-25.63),C(219.95,-23.62,-9.91,123.75),C(200,.14,-26.39),0]},
+  {yr:'2024 5月', title:'植物居家裝置製作', text:'想像植物從留白的空間長出藤蔓與植物堆疊的痕跡。我開始嘗試製作適合居家空間擺設的植物裝置，也開始注意到人們長期使用植物時的想法和感受。（這幅作品的尺寸為100 x 100 cm）',
+   crops:[C(199.98,-.1,-28.6),C(224.76,.1,-68.32,112.4),0,0,0,0,0,0]},
+  {yr:'2025 - NOW', title:'探索生活 融入工作', text:'生活的瑣碎事物、都可以是設計的發想中心，在執行設計時如何同時提升使用者好的體驗以及執行更深的設計概念，透過不斷的製作和與客戶溝通的過程，引發了我對使用者設計的探討與興趣。',
+   crops:[C(330.21,-15.42,-144.04,139.31),0,0,0,0,C(177.74,.1,-23.59),0,0]},
+];
+let n = 0;
+const stage = document.getElementById('timeline'), sec = document.getElementById('chrono');
+stage.innerHTML = CHAPTERS.map((c, k) => {
+  const figs = c.crops.map(cr => {
+    n++;
+    const img = cr ? `<img src="${mediaURL(`img/chrono-src/c${n}.jpg`)}" alt="" style="height:${cr[0]}%;left:${cr[1]}%;top:${cr[2]}%;width:${cr[3]}%">`
+                   : `<img class="cover" src="${mediaURL(`img/chrono-src/c${n}.jpg`)}" alt="">`;
+    return `<figure>${img}</figure>`;
+  }).join('');
+  return `<div class="chapter" data-k="${k}">
+    <div class="photos"><div class="track">${figs}</div></div>
+    <img class="rule" src="img/tl-dots.svg" alt="">
+    <div class="txt"><div class="yr">${c.yr}</div><h3>${c.title}</h3><p>${c.text}</p></div>
+  </div>`;
+}).join('');
+document.getElementById('ctot').textContent = String(CHAPTERS.length).padStart(2, '0');
+
+const chapters = [...stage.children], tracks = chapters.map(c => c.querySelector('.track'));
+const desktop = matchMedia('(min-width:1101px)');
+const size = () => { sec.style.height = desktop.matches ? `${(CHAPTERS.length + 1) * 100}vh` : ''; };
+size(); desktop.addEventListener('change', size);
+
+// One stage at a time. Each stage's photos come out from the divider line and travel left,
+// once each, in order: scrolling through the stage carries the strip from the first photo to the last.
+let active = -1, xs = tracks.map(() => 0);
+function show(k) {
+  active = k;
+  chapters.forEach((c, i) => c.classList.toggle('on', i === k));
+  document.getElementById('cnum').textContent = String(k + 1).padStart(2, '0');
+}
+function frame() {
+  if (desktop.matches) {
+    const total = sec.offsetHeight - innerHeight;
+    const p = Math.min(.9999, Math.max(0, -sec.getBoundingClientRect().top / total));
+    const f = p * CHAPTERS.length, k = Math.floor(f), local = f - k;
+    if (k !== active) show(k);
+    document.getElementById('cbar').style.width = (local * 100) + '%';
+    tracks.forEach((t, i) => {
+      const view = t.parentElement.clientWidth, maxX = Math.max(0, t.scrollWidth - view);
+      // before / after its turn the strip waits behind the divider (or has finished)
+      const target = i < k ? maxX + view : i > k ? -view : -view * (1 - Math.min(1, local / .25)) + maxX * Math.max(0, (local - .25) / .75);
+      xs[i] += (target - xs[i]) * .08;                  // eased, so it glides slowly
+      t.style.transform = `translate3d(${-xs[i]}px,0,0)`;
+    });
+  }
+  requestAnimationFrame(frame);
+}
+tracks.forEach((t, i) => { xs[i] = -t.parentElement.clientWidth; });
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

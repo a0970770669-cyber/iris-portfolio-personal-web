@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiverse Garden — Case Study · Iris Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Alice&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=20261111n">
+<style>
+/* "View website" button the client asked for; floats so it never covers the Figma layout */
+.visit{position:fixed;right:24px;bottom:24px;z-index:50;box-shadow:0 6px 18px rgba(60,60,26,.18);transition:opacity .3s,transform .3s}
+.visit.away{opacity:0;transform:translateY(12px);pointer-events:none}
+</style>
+</head>
+<body>
+<div data-part="nav" data-active="project.html"></div>
+<main>
+  <!-- Figma: MG Case Study, frame 2:77 "Desktop - 1" (1440 wide) -->
+  <div class="case" data-manifest="img/cs-mg2/manifest.json" aria-label="Multiverse Garden case study"></div>
+</main>
+<div data-part="caseFoot" data-active="case-amazing-talker.html|case-amazing-talker.html"></div>
+<a class="pill visit" href="https://multiverse-garden.vercel.app/index.html" target="_blank" rel="noopener">View website ↗</a>
+<script src="js/site.js?v=20261111n"></script>
+<script src="js/ia.js?v=20261111n"></script>
+<script src="js/case.js?v=20261111n"></script>
+<script>
+// tuck the floating button away once the footer is on screen, so it never covers the footer icons
+const visit = document.querySelector('.visit');
+new IntersectionObserver(([e]) => visit.classList.toggle('away', e.isIntersecting)).observe(document.querySelector('.cfoot'));
+</script>
+</body>
+</html>

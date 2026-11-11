@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project — Iris Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Alice&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=20261111n">
+<style>
+.title{padding:40px 0 60px}
+.pgrid{display:grid;grid-template-columns:repeat(2,504px);gap:60px 20px;justify-content:center;padding:40px 24px}
+.pcard{border:1px solid var(--olive);border-radius:16px;padding:20px;height:550px;display:flex;flex-direction:column;background:var(--cream);}
+.ph{height:283px;border-radius:8px;overflow:hidden;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.ph img{width:100%;height:100%;object-fit:cover}
+.body{flex:1;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding-top:20px}
+.body h2{font:400 47px/47px var(--serif);letter-spacing:-.94px;white-space:nowrap}
+.body h2.sm{font-size:45px}
+.body p{font-size:16px;line-height:20.8px;letter-spacing:-.1px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.pill.ghost{padding:4px 13px}
+/* hover: card fills olive, text and tags invert, photo zooms a little, round arrow appears bottom-right */
+.pcard{position:relative;color:var(--olive);transition:background-color .35s ease,color .35s ease}
+.pcard .ph img{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.pcard .pill{transition:background-color .35s ease,color .35s ease,box-shadow .35s ease}
+.pcard .go{position:absolute;right:20px;bottom:20px;width:34px;height:34px;box-sizing:border-box;border-radius:50%;border:1.5px solid var(--cream);display:flex;align-items:center;justify-content:center;color:var(--cream);opacity:0;transform:translateX(-8px);transition:opacity .35s ease,transform .35s ease}
+.pcard .go svg{width:17px;height:17px}
+@media (hover:hover){
+  .pcard:hover{background:var(--olive);color:var(--cream)}
+  .pcard:hover .ph img{transform:scale(1.04)}
+  .pcard:hover .pill{background:var(--cream);color:var(--olive)}
+  .pcard:hover .pill.ghost{background:none;color:var(--cream);box-shadow:inset 0 0 0 1px var(--cream)}
+  .pcard:hover .go{opacity:1;transform:none}
+}
+@media (max-width:1100px){.pgrid{grid-template-columns:minmax(0,504px)}.pcard{height:auto}.body{gap:16px}.body h2{white-space:normal;font-size:38px;line-height:40px}}
+</style>
+</head>
+<body>
+<div data-part="nav" data-active="project.html"></div>
+
+<main>
+  <h1 class="display center title" style="color:var(--olive)">Project</h1>
+  <section class="pgrid">
+    <a class="pcard reveal" href="case-multiverse-garden.html">
+      <div class="ph"><img src="img/proj-mg.png" alt="Multiverse Garden"></div>
+      <div class="body">
+        <h2>Multiverse Garden</h2>
+        <p>Ｍultiverse Garden 為21世紀的奢侈花藝品牌，擺脫過去純販售商品的花藝電商網站，打造一個讓使用者如同進到一間花店時的花藝品牌網路空間。品牌故事核心由『自然界的植物姿態與超現實主義的科幻環境』共組而成，帶有一種神秘、包容、無限可能的生態感，強調個人品味、居家美學的儀式感。</p>
+        <div class="tags"><span class="pill">UI UX Design &amp; Case Study</span><span class="pill ghost site-link" role="link" tabindex="0" data-href="https://multiverse-garden.vercel.app/index.html">View website ↗</span></div>
+      </div>
+      <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="pcard reveal" href="case-amazing-talker.html">
+      <div class="ph"><img src="img/proj-at.png" alt="Amazing Talker Redesigned" style="object-position:50% 0"></div>
+      <div class="body">
+        <h2 class="sm">Amazing Talker Redesigned</h2>
+        <p>本專案為 Amazing Talker redesign case study，根據本人與親友透過平台學習的經驗發現一些介面使用的痛點，決定為 Amazing Talker 以 Design Thinking 流程進行網頁迭代設計，創造一個讓學員及教師可以更直覺找到需求入口、使學習更輕鬆愉快的線上學習平台。</p>
+        <span class="pill">UI UX Design &amp; Case Study</span>
+      </div>
+      <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </section>
+  <div data-part="cta"></div>
+</main>
+<div data-part="connect"></div>
+<div data-part="footer"></div>
+<script src="js/site.js?v=20261111n"></script>
+<script>
+// "View website" sits inside the card link, so open it on its own instead of the case study.
+document.querySelectorAll('.site-link').forEach(el => {
+  const go = e => { e.preventDefault(); e.stopPropagation(); window.open(el.dataset.href, '_blank', 'noopener'); };
+  el.addEventListener('click', go);
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') go(e); });
+});
+</script>
+</body>
+</html>

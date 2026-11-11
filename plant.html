@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water my plant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFFDEF;--olive:#696931;--dark:#3C3C1A}
+*{box-sizing:border-box;margin:0}
+/* Sizes from Figma "Frame 329" (63:4481): 605 x 447 stage, Potted Iris 248 x 321 at (0,0),
+   Watering Can vector 163 x 134 at (442,261), hint 20px Afacad Medium, gap 32, padding 80. */
+html,body{height:100%}
+body{background:transparent;color:var(--olive);font:400 16px/1.3 Afacad,sans-serif;overflow:hidden;-webkit-user-select:none;user-select:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(80px * var(--k,1))}
+.scene{position:relative;width:calc(456px * var(--k,1));height:calc(321px * var(--k,1));flex:none}
+.plant{position:absolute;left:0;top:0;width:calc(248px * var(--k,1));height:calc(321px * var(--k,1))}
+.plant svg{width:100%;height:100%;overflow:visible;transition:filter .3s}
+.can{position:absolute;width:calc(163px * var(--k,1));height:calc(134px * var(--k,1));cursor:grab;touch-action:none;transform-origin:50% 50%;transition:transform .45s cubic-bezier(.2,.8,.2,1),left .45s cubic-bezier(.2,.8,.2,1),top .45s cubic-bezier(.2,.8,.2,1)}
+.can.held{cursor:grabbing;transition:transform .25s ease}
+.can img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.hint{font:500 calc(20px * var(--k,1))/normal Afacad,sans-serif;letter-spacing:.3px;color:var(--olive);text-align:center;white-space:nowrap}
+.hint.done{font:italic calc(30px * var(--k,1))/1 "Instrument Serif",serif;color:var(--dark)}
+.again{position:absolute;right:24px;bottom:12px;font:500 14px/1 Afacad;color:var(--olive);background:none;border:1px solid rgba(105,105,49,.4);border-radius:20px;padding:8px 16px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .4s}
+.again.show{opacity:1;pointer-events:auto}
+.drop{position:absolute;width:6px;height:9px;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;background:#5E8ACB;opacity:.9;pointer-events:none}
+.splash{position:absolute;width:12px;height:4px;border-radius:50%;border:1.5px solid #5E8ACB;opacity:.8;pointer-events:none;animation:splash .4s ease-out forwards}
+@keyframes splash{to{transform:scale(2.2);opacity:0}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="crayon" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04 0.5" numOctaves="2" seed="3" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="3" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="2" seed="8" result="g"/>
+      <feColorMatrix in="g" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ga"/>
+      <feComposite in="d" in2="ga" operator="in"/>
+    </filter>
+    <filter id="wilt"><feColorMatrix id="wiltM" type="saturate" values="1"/></filter>
+    <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#fff" stroke-width="1.2" opacity=".28"/>
+    </pattern>
+    <pattern id="hatch2" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-50)">
+      <line x1="0" y1="0" x2="0" y2="4" stroke="#000" stroke-width=".8" opacity=".10"/>
+    </pattern>
+  </defs>
+</svg>
+
+<main class="scene" id="scene">
+  <div class="plant" id="plant"><svg viewBox="0 0 400 460" preserveAspectRatio="none" id="plantSvg" aria-label="A potted plant"></svg></div>
+  <div class="can" id="can" aria-label="Watering can"><img src="assets/can-figma.svg" alt="" draggable="false"></div>
+</main>
+<p class="hint" id="hint">water my plant, pick up the watering can</p>
+<button class="again" id="again">water again</button>
+
+<script>
+const $ = id => document.getElementById(id);
+const shade = (d, c, extra='') => `<path d="${d}" fill="${c}" ${extra}/><path d="${d}" fill="url(#hatch)"/><path d="${d}" fill="url(#hatch2)"/>`;
+
+// ---------- plant ----------
+const BASE = [200, 292];
+const P = (len, w, c) => shade(`M0,0 C${w},${-len*.3} ${w*.7},${-len} 0,${-len} C${-w*.7},${-len} ${-w},${-len*.3} 0,0 Z`, c);
+const sword = (len, w, c) => shade(`M${-w/2},0 C${-w*.75},${-len*.5} ${-w*.2},${-len*.86} 0,${-len} C${w*.25},${-len*.8} ${w*.75},${-len*.45} ${w/2},0 Z`, c) +
+  `<path d="M0,-6 L0,${-len*.9}" stroke="#F4F1DC" stroke-width="1.4" opacity=".45" fill="none"/>`;
+const HEADS = {
+  iris: [-32, 0, 32].map(r => `<g transform="rotate(${r})">${P(36, 13, '#8F92D8')}</g>`).join('') +
+        [125, 180, 235].map(r => `<g transform="rotate(${r})">${P(42, 20, '#5B5DAE')}<path d="M0,-6 L0,-24" stroke="#E5B53A" stroke-width="3" stroke-linecap="round"/></g>`).join('') +
+        `<circle r="5" fill="#4A4C96"/>`,
+  bud: shade('M0,0 C10,-10 9,-34 0,-48 C-9,-34 -10,-10 0,0 Z', '#6467B8') + shade('M0,4 C9,-4 8,-20 2,-26 C-1,-14 -6,-6 0,4 Z', '#5E7A33'),
+};
+const LEAVES = [
+  {a:-34, len:170, w:20, c:'#5E7A33', wilt:-34},
+  {a:-20, len:232, w:22, c:'#6F8B3A', wilt:-36},
+  {a:-6,  len:268, w:22, c:'#5E7A33', wilt:-24},
+  {a:9,   len:242, w:21, c:'#4E6B2B', wilt:28},
+  {a:23,  len:206, w:20, c:'#6F8B3A', wilt:34},
+  {a:37,  len:160, w:18, c:'#5E7A33', wilt:32},
+];
+const STEMS = [
+  {id:'f1', tip:[-30,-305], c1:[-8,-150], head:'iris', angle:-4,  wiltAngle:-125, wilt:-16},
+  {id:'f2', tip:[62,-252],  c1:[22,-140], head:'iris', angle:12,  wiltAngle:130,  wilt:20},
+  {id:'f3', tip:[16,-208],  c1:[6,-100],  head:'bud',  angle:6,   wiltAngle:75,   wilt:12},
+];
+const BLOOM = {tip:[-84,-238], c1:[-40,-120]};
+
+function plantSVG() {
+  let s = `<g filter="url(#crayon)"><g filter="url(#wilt)">`;
+  s += `<g id="bloomStem" opacity="0"><path d="M0,0 Q${BLOOM.c1} ${BLOOM.tip}" transform="translate(${BASE})" stroke="#5E7A33" stroke-width="4.5" fill="none" stroke-linecap="round"/><g id="bloomHead" transform="translate(${BASE[0]+BLOOM.tip[0]},${BASE[1]+BLOOM.tip[1]}) scale(0)">${HEADS.iris}</g></g>`;
+  LEAVES.forEach((l, i) => { s += `<g transform="translate(${BASE})"><g id="L${i}">${sword(l.len, l.w, l.c)}</g></g>`; });
+  for (const st of STEMS) {
+    const [tx, ty] = st.tip;
+    s += `<g id="${st.id}"><path d="M${BASE} q${st.c1} ${tx},${ty}" stroke="#5E7A33" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+    s += `<g transform="translate(${BASE[0]+tx},${BASE[1]+ty})"><g class="head">${HEADS[st.head]}</g></g></g>`;
+  }
+  s += `</g>`;
+  // terracotta pot
+  // hand-cut pot: uneven lip, softly bulging sides, rounded foot
+  s += shade('M141,302 C145,326 148,352 149,380 C150,404 150,424 156,440 C161,452 178,455 199,455 C222,455 240,452 245,441 C249,428 248,404 251,378 C254,352 256,328 260,302 C230,306 172,306 141,302 Z', '#C77B55');
+  s += shade('M134,288 C136,280 156,282 182,281 C210,280 238,277 262,280 C271,281 272,290 270,298 C268,306 260,307 246,307 C214,308 176,309 150,308 C138,307 132,303 132,297 C132,293 133,290 134,288 Z', '#B0623F');
+  s += [[160,338,4.6,8.5],[173,340,3.6,9.5],[186,341,4.2,8.8],[199,341,3.4,9.8],[212,341,4.4,9],[225,340,3.6,8.6],[238,338,4.2,9.4]]
+    .map(([cx,cy,rx,ry])=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#F6E7D4" opacity=".92"/>`).join('');
+  s += `</g>`;
+  return s;
+}
+$('plantSvg').innerHTML = plantSVG();
+
+let growth = 0;
+const ease = t => 1 - Math.pow(1 - t, 3);
+function renderPlant() {
+  const p = ease(growth);
+  LEAVES.forEach((l, i) => $('L' + i).setAttribute('transform', `rotate(${l.a + l.wilt * (1 - p)}) scale(1,${.84 + .16 * p})`));
+  for (const st of STEMS) {
+    const g = $(st.id);
+    g.setAttribute('transform', `rotate(${st.wilt * (1 - p)} ${BASE[0]} ${BASE[1]})`);
+    const a = st.wiltAngle + (st.angle - st.wiltAngle) * p;
+    g.querySelector('.head').setAttribute('transform', `rotate(${a}) scale(${.72 + .28 * p})`);
+  }
+  const b = Math.max(0, (growth - .82) / .18);
+  $('bloomStem').setAttribute('opacity', b > 0 ? 1 : 0);
+  $('bloomHead').setAttribute('transform', `translate(${BASE[0]+BLOOM.tip[0]},${BASE[1]+BLOOM.tip[1]}) rotate(-14) scale(${ease(b)})`);
+  $('wiltM').setAttribute('values', (.3 + .7 * p).toFixed(3));
+}
+renderPlant();
+
+// ---------- watering can ----------
+const SPOUT = [0.5/163, 30/134];   // spout tip in the Figma can vector (163 x 134)
+
+const can = $('can'), scene = $('scene'), hint = $('hint');
+let home = {x:0, y:0}, pos = {x:0, y:0}, drag = null, tilt = 0, done = false;
+
+function layoutHome() {
+  const k = Math.min(1, (innerWidth - 32) / 456, (innerHeight - 120) / 425);
+  document.body.style.setProperty('--k', k);
+  home = {x: 293 * k, y: 172 * k};                  // can sits close to the pot, as Iris asked
+  if (!drag) { pos = {...home}; place(); }
+}
+function place() {
+  can.style.left = pos.x + 'px';
+  can.style.top = pos.y + 'px';
+  can.style.transform = `rotate(${tilt}deg)`;
+}
+addEventListener('resize', layoutHome);
+layoutHome();
+
+function spoutPoint() {
+  const w = can.offsetWidth, h = can.offsetHeight;
+  const dx = SPOUT[0] * w - w / 2, dy = SPOUT[1] * h - h / 2;
+  const a = tilt * Math.PI / 180;
+  return {x: pos.x + w / 2 + dx * Math.cos(a) - dy * Math.sin(a), y: pos.y + h / 2 + dx * Math.sin(a) + dy * Math.cos(a)};
+}
+function plantZone() {
+  const s = scene.getBoundingClientRect(), r = $('plant').getBoundingClientRect(), k = r.width / 400, ky = r.height / 460;
+  return {left: r.left - s.left + 110 * k, right: r.left - s.left + 290 * k, soil: r.top - s.top + 300 * ky, top: r.top - s.top};
+}
+
+can.addEventListener('pointerdown', e => {
+  if (done) return;
+  try { can.setPointerCapture(e.pointerId); } catch (_) {}
+  can.classList.add('held');
+  drag = {dx: e.clientX - pos.x, dy: e.clientY - pos.y};
+  hint.textContent = 'hold it over the plant';
+});
+can.addEventListener('pointermove', e => {
+  if (!drag) return;
+  const s = scene.getBoundingClientRect();
+  pos = {x: e.clientX - drag.dx, y: e.clientY - drag.dy};
+  const z = plantZone(), sp = spoutPoint();
+  const over = sp.x > z.left - 60 && sp.x < z.right + 40 && sp.y < z.soil;
+  tilt = over ? -38 : 0;
+  hint.textContent = over ? 'glug glug…' : 'hold it over the plant';
+  place();
+});
+const release = () => {
+  if (!drag) return;
+  drag = null; tilt = 0; can.classList.remove('held');
+  pos = {...home}; place();
+  if (!done) hint.textContent = growth > 0 ? 'a little more…' : 'water my plant, pick up the watering can';
+};
+can.addEventListener('pointerup', release);
+can.addEventListener('pointercancel', release);
+
+// ---------- water ----------
+const drops = [];
+let last = 0;
+function tick(t) {
+  if (drag && tilt < -20 && t - last > 35) {
+    last = t;
+    const sp = spoutPoint();
+    for (let i = 0; i < 2; i++) {
+      const el = document.createElement('div');
+      el.className = 'drop';
+      scene.appendChild(el);
+      drops.push({el, x: sp.x + Math.random() * 6 - 3, y: sp.y, vx: -.6 - Math.random() * .9, vy: .8 + Math.random()});
+    }
+  }
+  const z = plantZone();
+  for (let i = drops.length - 1; i >= 0; i--) {
+    const d = drops[i];
+    d.vy += .32; d.x += d.vx; d.y += d.vy;
+    d.el.style.transform = `translate(${d.x}px,${d.y}px)`;
+    if (d.y > z.soil || d.y > innerHeight) {
+      if (d.x > z.left - 30 && d.x < z.right + 30 && d.y < z.soil + 40) {
+        growth = Math.min(1, growth + .0045);
+        const sp = document.createElement('div');
+        sp.className = 'splash';
+        sp.style.left = d.x - 6 + 'px'; sp.style.top = z.soil - 2 + 'px';
+        scene.appendChild(sp); setTimeout(() => sp.remove(), 400);
+      }
+      d.el.remove(); drops.splice(i, 1);
+    }
+  }
+  renderPlant();
+  if (growth >= 1 && !done) {
+    done = true;
+    hint.textContent = 'all grown, thank you!';
+    hint.classList.add('done');
+    $('again').classList.add('show');
+    release();
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+$('again').addEventListener('click', () => {
+  growth = 0; done = false;
+  hint.classList.remove('done');
+  hint.textContent = 'water my plant, pick up the watering can';
+  $('again').classList.remove('show');
+});
+</script>
+</body>
+</html>

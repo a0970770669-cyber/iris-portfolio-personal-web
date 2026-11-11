@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground — Iris Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Reenie+Beanie&family=Alice&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=20261111n">
+<style>
+@font-face{font-family:"Postcard CJK";src:local("PingFang TC"),local("PingFangTC-Regular"),local("Noto Sans TC"),local("Microsoft JhengHei");
+  size-adjust:71%;unicode-range:U+2E80-9FFF,U+F900-FAFF,U+FE30-FE4F,U+FF00-FFEF,U+3000-303F}
+/* Playground — follows Figma page "Playground" (frames 24:53 … 24:618) */
+:root{--stamp:#EFE9D2}
+button{background:none;border:0;cursor:pointer;font:inherit;color:inherit}
+.ptitle{display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px 0;color:var(--olive)}
+.ptitle h1{font:400 90px/90px var(--serif);letter-spacing:-2px;white-space:nowrap}
+.ptitle p{width:634px;max-width:calc(100% - 32px);font-size:20px;line-height:27px;text-align:center;color:var(--dark)}
+.zone{display:flex;flex-direction:column;align-items:center;gap:36px;padding:40px 0}
+.zone[hidden]{display:none}
+.ztitle{font:400 56px/60px var(--serif);letter-spacing:-1px;color:var(--olive);white-space:nowrap}
+.btn{display:inline-flex;align-items:flex-start;border-radius:20px;padding:8px 22px;font:500 18px/normal var(--sans);white-space:nowrap}
+.btn.primary{background:var(--olive);color:var(--cream)}
+.btn.ghost{border:1px solid var(--olive);color:var(--olive);padding:7px 21px}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.tool{border:1px solid var(--olive);color:var(--olive);padding:4px 13px;font:400 16px/normal var(--sans)}
+.btn.tool:disabled{opacity:.35}
+/* studio: tray 268 + gap 20 + workspace 1072 */
+.studio{display:flex;gap:20px;align-items:stretch;justify-content:center;width:calc(100% - 48px);max-width:1240px;margin:0 auto}
+.tray{flex:none;width:300px;border:1px solid var(--olive);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;contain:size;overflow:hidden}
+.tray .lbl{font:500 14px/18px var(--sans);letter-spacing:.6px;white-space:nowrap}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:8px}
+.pick button{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:15px;line-height:normal}
+.pick img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:6px;outline:2px solid transparent;outline-offset:1px}
+.pick button.on img{outline-color:var(--olive)}
+.stickers{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;flex:1 1 0;min-height:0;width:100%}
+.stickers button{width:100%;height:100%;min-height:67px;display:flex;align-items:center;justify-content:center}
+.stickers img{max-width:60px;max-height:60px;width:auto;height:auto;filter:drop-shadow(0 2px 3px rgba(60,60,26,.28));pointer-events:none}
+.work{flex:0 1 920px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.bar{display:flex;align-items:center;gap:8px;height:40px}
+.bar .sp{flex:1}
+.canvas,.front{position:relative;overflow:hidden;background:url(assets/garden.jpg) center/cover}
+.canvas{aspect-ratio:1072/715;border:1px solid var(--olive);border-radius:16px;touch-action:none;user-select:none}
+.empty-note{position:absolute;left:0;right:0;top:27.3%;text-align:center;font:italic 34px/38px var(--serif);color:var(--olive);pointer-events:none}
+.canvas.moon .empty-note{color:var(--cream)}
+.piece{position:absolute;transform-origin:center;filter:drop-shadow(0 2px 3px rgba(60,60,26,.28))}
+.canvas .piece{cursor:grab}
+.canvas .piece:active{cursor:grabbing}
+.piece img{display:block;width:100%;max-width:none;pointer-events:none;-webkit-user-drag:none}
+.piece.sel{outline:1px dashed var(--olive);outline-offset:3px}
+.hint{font-size:15px;color:var(--olive);min-height:20px;text-align:center;margin-top:-24px}
+/* postcard: two 600 × 400 cards, positions from Figma 24:281 */
+.cards{display:flex;gap:24px;justify-content:center;width:100%;padding:0 24px}
+.card{flex:0 1 480px;aspect-ratio:3/2;border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(60,60,26,.25),0 10px 28px rgba(60,60,26,.16);background:var(--cream);position:relative;container-type:inline-size}
+.front{position:absolute;inset:0}
+.back{position:absolute;inset:0;color:var(--dark)}
+.back textarea,.back input{position:absolute;left:4.667%;border:0;outline:0;background:none;color:var(--dark);font-family:"Reenie Beanie","Postcard CJK",var(--cjk);resize:none;padding:0}
+.back textarea{top:7.5%;width:42.5%;height:62%;font-size:4.4cqw;line-height:4.6875cqw}
+.back .sign{top:81%;width:46%;font-size:4.4cqw;line-height:5cqw}
+.back .mark{position:absolute;left:4.667%;top:91.5%;font-size:2.167cqw;line-height:2.833cqw;color:var(--olive);white-space:nowrap}
+.back .line{position:absolute;left:62%;width:33.4%;height:1px;background:var(--olive)}
+.stamp{position:absolute;left:78%;top:7%;width:17.333%;aspect-ratio:104/134;background:var(--stamp);
+  --c:var(--cream);
+  background-image:
+    radial-gradient(circle at 50% 0,var(--c) 3.5px,transparent 3.8px),
+    radial-gradient(circle at 50% 100%,var(--c) 3.5px,transparent 3.8px),
+    radial-gradient(circle at 0 50%,var(--c) 3.5px,transparent 3.8px),
+    radial-gradient(circle at 100% 50%,var(--c) 3.5px,transparent 3.8px);
+  background-size:10.4px 7px,10.4px 7px,7px 11.17px,7px 11.17px;
+  background-position:-1.7px 0,-1.7px 100%,0 2.1px,100% 2.1px;
+  background-repeat:repeat-x,repeat-x,repeat-y,repeat-y}
+.stamp img{position:absolute;left:9.6%;top:6.7%;width:80.8%;height:73.1%;object-fit:cover;mix-blend-mode:multiply}
+.stamp span{position:absolute;left:0;right:0;top:82.1%;text-align:center;font:italic 2.5cqw/2.5cqw var(--serif);color:var(--dark)}
+.share{display:flex;gap:10px;align-items:center}
+@media (max-width:1100px){
+  .ptitle h1{font-size:60px;line-height:62px}
+  .ztitle{font-size:42px;line-height:46px}
+  .studio{flex-direction:column-reverse;align-items:center;width:calc(100% - 32px)}
+  .work{flex:none;width:100%}
+  .tray{width:100%;max-width:560px;contain:none}
+  .stickers{width:auto;flex:none;grid-auto-rows:67px;grid-template-columns:repeat(auto-fill,67px)}
+  .cards{flex-direction:column;align-items:center}
+  .card{flex:none;width:100%;max-width:480px}
+  .stamp{background-size:6px 4px,6px 4px,4px 6.4px,4px 6.4px}
+}
+@media (max-width:640px){.ptitle h1{font-size:44px;line-height:46px}.ztitle{font-size:34px;line-height:38px;white-space:normal;text-align:center}}
+</style>
+</head>
+<body>
+<div data-part="nav" data-active="playground.html"></div>
+
+<section class="ptitle">
+  <h1>Sculpt your <i>garden</i></h1>
+  <p>Plant whatever you like in your garden and write a few words on your postcard.</p>
+</section>
+
+<section class="zone" id="garden">
+  <div class="studio">
+    <aside class="tray" id="tray"></aside>
+    <div class="work">
+      <div class="bar">
+        <button class="btn tool" data-act="del" disabled>Remove</button>
+        <span class="sp"></span>
+        <button class="btn ghost" id="clear">Start over</button>
+      </div>
+      <div class="canvas" id="canvas"></div>
+    </div>
+  </div>
+  <h2 class="ztitle">Create your own G<i>arden</i></h2>
+  <button class="btn primary" id="toCard">Turn it into a postcard</button>
+  <p class="hint" id="cardHint"></p>
+</section>
+
+<section class="zone" id="postcard" hidden>
+  <h2 class="ztitle">Write your <i>postcard</i></h2>
+  <div class="cards">
+    <div class="card"><div class="front" id="front"></div></div>
+    <div class="card"><div class="back">
+      <textarea id="msg" aria-label="Your message" placeholder="Write something here..." maxlength="160">Dear you, this is the garden I grew this week. Come sit in it for a while.</textarea>
+      <input class="sign" id="sign" aria-label="Your name" placeholder="your name" value="from, a gardener" maxlength="30">
+      <span class="mark">Grown at Iris Liu's Playground</span>
+      <div class="stamp"><img src="assets/stamp-art.png" alt="Iris Garden stamp"><span>Iris Garden</span></div>
+      <i class="line" style="top:67.3%"></i><i class="line" style="top:75.3%"></i><i class="line" style="top:83.2%"></i>
+    </div></div>
+  </div>
+  <div class="share">
+    <button class="btn primary" id="save">Save my postcard</button>
+    <button class="btn ghost" id="back">Keep planting</button>
+  </div>
+  <p class="hint" id="shareHint"></p>
+</section>
+
+<div data-part="cta"></div>
+<div data-part="footer"></div>
+<script src="js/site.js?v=20261111n"></script>
+
+<script>
+const S = n => `assets/stickers/${n}.png`;
+// Sticker order exactly as the tray in Figma (Playground 01, frame 35:1538)
+const STICKERS = ["jack-stand","collie-lie","tux-sit","cat-back","moth","window","heart","plant","grass","jack-sit","orange-sit","tux-walk","cat-side","bicycle","cloud","bouquet","basket","collie-run","orange-sleep","ball-stick","paws","yarn","daisy"];
+const $ = id => document.getElementById(id);
+
+const GARDENS = {hill:{src:'assets/garden.jpg',label:'Hill'}, moon:{src:'assets/garden-moon.jpg',label:'Moon'}};
+let garden = 'hill';
+$("tray").innerHTML = `<p class="lbl">YOUR GARDEN</p><div class="pick">${Object.entries(GARDENS).map(([k,g]) => `<button data-garden="${k}"><img src="${g.src}" alt="">${g.label}</button>`).join("")}</div><div class="stickers">${STICKERS.map(n => `<button data-sticker="${n}" aria-label="${n}"><img src="${S(n)}" alt=""></button>`).join("")}</div>`;
+
+let sel = null, zTop = 10;
+const canvas = $('canvas');
+function setGarden(k){
+  garden = k;
+  canvas.style.backgroundImage = `url(${GARDENS[k].src})`;
+  canvas.classList.toggle('moon', k === 'moon');
+  document.querySelectorAll('[data-garden]').forEach(b => b.classList.toggle('on', b.dataset.garden === k));
+}
+function note(){
+  const planted = !!canvas.querySelector(".piece");
+  $("toCard").disabled = !planted;
+  $("cardHint").textContent = "";
+  const has = canvas.querySelector('.piece'), n = canvas.querySelector('.empty-note');
+  if (!has && !n) canvas.insertAdjacentHTML('afterbegin','<div class="empty-note">An empty hill, waiting for you.</div>');
+  if (has && n) n.remove();
+}
+function addPiece({src, x, y, w, r=0}){
+  const el = document.createElement('div');
+  el.className = 'piece';
+  el.innerHTML = `<img src="${src}" alt="" draggable="false">`;
+  el.dataset.r = r;
+  el.style.cssText = `left:${x}%;top:${y}%;width:${w}%;z-index:${++zTop};transform:rotate(${r}deg)`;
+  canvas.appendChild(el);
+  note();
+  return el;
+}
+function select(el){
+  if (sel) sel.classList.remove('sel');
+  sel = el;
+  if (sel) sel.classList.add('sel');
+  document.querySelectorAll('[data-act]').forEach(b => b.disabled = !sel);
+}
+$('clear').addEventListener('click', () => { canvas.innerHTML=''; select(null); note(); });
+$('tray').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.garden) { setGarden(b.dataset.garden); return; }
+  select(addPiece({src:S(b.dataset.sticker), x:30+Math.random()*30, y:15+Math.random()*30, w:14, r:Math.random()*10-5}));
+});
+
+let drag = null;
+canvas.addEventListener('pointerdown', e => {
+  const p = e.target.closest('.piece');
+  if (!p) { select(null); return; }
+  select(p);
+  p.style.zIndex = ++zTop;
+  const c = canvas.getBoundingClientRect();
+  drag = {p, dx:e.clientX - p.offsetLeft - c.left, dy:e.clientY - p.offsetTop - c.top};
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove', e => {
+  if (!drag) return;
+  const c = canvas.getBoundingClientRect();
+  drag.p.style.left = (e.clientX - c.left - drag.dx) / c.width * 100 + '%';
+  drag.p.style.top = (e.clientY - c.top - drag.dy) / c.height * 100 + '%';
+});
+canvas.addEventListener('pointerup', () => drag = null);
+canvas.addEventListener('wheel', e => {
+  const p = e.target.closest('.piece'); if (!p) return;
+  e.preventDefault(); select(p);
+  const d = (e.deltaY || e.deltaX) > 0 ? 1 : -1;
+  if (e.shiftKey) { const r = +p.dataset.r + d * 6; p.dataset.r = r; p.style.transform = `rotate(${r}deg)`; }
+  else p.style.width = Math.min(70, Math.max(5, parseFloat(p.style.width) * (d > 0 ? .94 : 1.06))) + '%';
+}, {passive:false});
+canvas.addEventListener('dblclick', e => { const p = e.target.closest('.piece'); if (p) p.style.zIndex = ++zTop; });
+addEventListener('keydown', e => { if (sel && (e.key === 'Backspace' || e.key === 'Delete') && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { sel.remove(); select(null); note(); } });
+
+document.querySelector('.bar').addEventListener('click', e => {
+  const a = e.target.dataset.act; if (!a || !sel) return;
+  const rot = d => { const r = +sel.dataset.r + d; sel.dataset.r = r; sel.style.transform = `rotate(${r}deg)`; };
+  const size = k => sel.style.width = parseFloat(sel.style.width) * k + '%';
+  if (a==='rotL') rot(-10);
+  if (a==='rotR') rot(10);
+  if (a==='big') size(1.15);
+  if (a==='small') size(.87);
+  if (a==='front') sel.style.zIndex = ++zTop;
+  if (a==='del') { sel.remove(); select(null); note(); }
+});
+
+$('toCard').addEventListener('click', () => {
+  select(null);
+  $('front').innerHTML = [...canvas.querySelectorAll('.piece')].map(p => p.outerHTML).join('');
+  $('front').style.backgroundImage = `url(${GARDENS[garden].src})`;
+  $('postcard').hidden = false; $('garden').hidden = true;
+  $('postcard').scrollIntoView({block:'start'});
+});
+$('back').addEventListener('click', () => { $('garden').hidden = false; $('postcard').hidden = true; $('garden').scrollIntoView({block:'start'}); });
+
+const loadImg = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+function wrap(ctx, text, x, y, maxW, lh){
+  // breaks between words for English and between characters for Chinese
+  const parts = text.match(/[⺀-鿿豈-﫿＀-￯　-〿]|[^\s⺀-鿿豈-﫿＀-￯　-〿]+|\s+/g) || [];
+  let line = '';
+  for (const p of parts) {
+    const next = line + p;
+    if (ctx.measureText(next).width > maxW && line.trim()) { ctx.fillText(line.trimEnd(), x, y); y += lh; line = /^\s+$/.test(p) ? '' : p; }
+    else line = next;
+  }
+  ctx.fillText(line.trimEnd(), x, y);
+}
+// Draws both sides of the postcard, front above back, at 1800 x 1200 per side.
+async function renderPostcard(){
+  await document.fonts.load('79px "Postcard CJK"', '花');
+  const W = 1800, H = 1200, GAP = 40, k = W / canvas.clientWidth;
+  const out = document.createElement('canvas');
+  out.width = W; out.height = H * 2 + GAP;
+  const ctx = out.getContext('2d');
+  ctx.fillStyle = '#FFFDEF'; ctx.fillRect(0, 0, W, out.height);
+
+  const bg = await loadImg(GARDENS[garden].src);
+  const scale = Math.max(W / bg.width, H / bg.height);
+  ctx.drawImage(bg, (W - bg.width * scale) / 2, (H - bg.height * scale) / 2, bg.width * scale, bg.height * scale);
+  const pieces = [...canvas.querySelectorAll('.piece')].sort((a, b) => a.style.zIndex - b.style.zIndex);
+  for (const p of pieces) {
+    const img = await loadImg(p.querySelector('img').getAttribute('src'));
+    const w = p.offsetWidth * k, h = p.offsetHeight * k;
+    ctx.save();
+    ctx.translate((p.offsetLeft + p.offsetWidth / 2) * k, (p.offsetTop + p.offsetHeight / 2) * k);
+    ctx.rotate(+p.dataset.r * Math.PI / 180);
+    ctx.shadowColor = 'rgba(60,60,26,.28)'; ctx.shadowBlur = 9; ctx.shadowOffsetY = 6;
+    ctx.drawImage(img, -w / 2, -h / 2, w, h);
+    ctx.restore();
+  }
+
+  const top = H + GAP, olive = '#696931', dark = '#3C3C1A';
+  ctx.fillStyle = dark; ctx.textBaseline = 'top';
+  ctx.font = '79px "Reenie Beanie", "Postcard CJK", "PingFang TC", sans-serif';
+  wrap(ctx, $("msg").value, 84, top + 90, W * .425, 84);
+  ctx.font = '79px "Reenie Beanie", "Postcard CJK", "PingFang TC", sans-serif';
+  ctx.fillText($('sign').value, 84, top + H * .81);
+  ctx.fillStyle = olive; ctx.font = '39px Afacad';
+  ctx.fillText("Grown at Iris Liu's Playground", 84, top + H - 100);
+
+  const sw = 300, sh = 390, sx = W - 84 - sw, sy = top + 84;
+  ctx.fillStyle = '#EFE9D2'; ctx.fillRect(sx, sy, sw, sh);
+  ctx.fillStyle = '#FFFDEF';
+  const hole = (x, y) => { ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.fill(); };
+  for (let x = sx; x <= sx + sw; x += 30) { hole(x, sy); hole(x, sy + sh); }
+  for (let y = sy; y <= sy + sh; y += 30) { hole(sx, y); hole(sx + sw, y); }
+  const art = await loadImg('assets/stamp-art.png');
+  const artH = art.height / art.width * (sw - 56);
+  ctx.save(); ctx.globalCompositeOperation = 'multiply';
+  ctx.beginPath(); ctx.rect(sx + 28, sy + 26, sw - 56, sh - 100); ctx.clip();
+  ctx.drawImage(art, sx + 28, sy + 26 - (artH - (sh - 100)) / 2, sw - 56, artH);
+  ctx.restore();
+  ctx.fillStyle = dark; ctx.textAlign = 'center'; ctx.font = 'italic 44px "Instrument Serif"';
+  ctx.fillText('Iris Garden', sx + sw / 2, sy + sh - 62);
+  ctx.textAlign = 'left';
+
+  ctx.fillStyle = olive;
+  [.673, .753, .832].forEach(f => ctx.fillRect(W * .62, top + H * f, W * .334, 3));
+  return out;
+}
+$('save').addEventListener('click', async () => {
+  const c = await renderPostcard();
+  const a = document.createElement('a');
+  a.href = c.toDataURL('image/png');
+  a.download = 'my-iris-garden-postcard.png';
+  a.click();
+  $('shareHint').textContent = 'Your postcard has been saved.';
+});
+
+setGarden('hill');
+note();
+</script>
+</body>
+</html>
