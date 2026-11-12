@@ -52,9 +52,9 @@ caseFoot(arg) {
   return `<section class="cfoot">
     <div class="cfoot-box">
       <nav class="cfoot-nav">
-        <a href="${prev}" class="prev"><img src="img/icons/footer-arrow-back.svg" alt="">Previous Project</a>
+        <a href="${prev}" class="prev"><svg class="arrow" viewBox="0 0 20 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 1L1 6L6 11"/><path d="M1 6H9C14.523 6 19 10.477 19 16V17"/></svg>Previous Project</a>
         <a href="project.html" class="all"><img src="img/icons/footer-flower.svg" alt="">All Works</a>
-        <a href="${next}" class="next">Next Project<img src="img/icons/footer-arrow-forward.svg" alt=""></a>
+        <a href="${next}" class="next">Next Project<svg class="arrow" viewBox="0 0 20 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 1L19 6L14 11"/><path d="M19 6H11C5.477 6 1 10.477 1 16V17"/></svg></a>
       </nav>
       <p class="cfoot-cta">Let’t Create Something Together !</p>
     </div>

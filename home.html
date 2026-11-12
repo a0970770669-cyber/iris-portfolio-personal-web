@@ -6,7 +6,7 @@
 <title>Iris Liu — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Alice&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=20261111n">
+<link rel="stylesheet" href="css/site.css?v=20261112a">
 <style>
 .hero{padding:80px 0;display:flex;flex-direction:column;gap:40px}
 .hero h1{color:var(--olive)}
@@ -36,12 +36,15 @@
 <div data-part="connect"></div>
 <div data-part="footer"></div>
 
-<script src="js/site.js?v=20261111n"></script>
+<script src="js/site.js?v=20261112a"></script>
 <script>
 // Landing photos - Figma "Frame 328", in that order. Files are pre-cropped to the Figma crops at 2x.
 const H = [221,313,271,174,180,248,336,289,318,180,216,252,180,266];
 const track = document.getElementById('track');
-const set = H.map((h, i) => `<span style="--h:${h};--img:url(${mediaURL(`img/hero-crop/h${i + 1}.jpg`)})"></span>`).join('');
+// h12 was re-exported from Figma (the R2 copy was squashed), so it is served from this site instead of R2
+const LOCAL = new Set([12]);
+const src = n => LOCAL.has(n) ? `img/hero-crop/h${n}.jpg` : mediaURL(`img/hero-crop/h${n}.jpg`);
+const set = H.map((h, i) => `<span style="--h:${h};--img:url(${src(i + 1)})"></span>`).join('');
 track.innerHTML = set + set;                       // two copies so the loop is seamless
 // Photos enter from the right and drift left at a steady, slow speed.
 const SPEED = 40;                                  // px per second

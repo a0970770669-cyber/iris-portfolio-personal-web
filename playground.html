@@ -6,7 +6,7 @@
 <title>Playground — Iris Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Reenie+Beanie&family=Alice&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=20261111n">
+<link rel="stylesheet" href="css/site.css?v=20261112a">
 <style>
 @font-face{font-family:"Postcard CJK";src:local("PingFang TC"),local("PingFangTC-Regular"),local("Noto Sans TC"),local("Microsoft JhengHei");
   size-adjust:71%;unicode-range:U+2E80-9FFF,U+F900-FAFF,U+FE30-FE4F,U+FF00-FFEF,U+3000-303F}
@@ -132,7 +132,7 @@ button{background:none;border:0;cursor:pointer;font:inherit;color:inherit}
 
 <div data-part="cta"></div>
 <div data-part="footer"></div>
-<script src="js/site.js?v=20261111n"></script>
+<script src="js/site.js?v=20261112a"></script>
 
 <script>
 const S = n => `assets/stickers/${n}.png`;
@@ -246,7 +246,7 @@ function wrap(ctx, text, x, y, maxW, lh){
 // Draws both sides of the postcard, front above back, at 1800 x 1200 per side.
 async function renderPostcard(){
   await document.fonts.load('79px "Postcard CJK"', '花');
-  const W = 1800, H = 1200, GAP = 40, k = W / canvas.clientWidth;
+  const W = 1800, H = 1200, GAP = 40;
   const out = document.createElement('canvas');
   out.width = W; out.height = H * 2 + GAP;
   const ctx = out.getContext('2d');
@@ -256,11 +256,14 @@ async function renderPostcard(){
   const scale = Math.max(W / bg.width, H / bg.height);
   ctx.drawImage(bg, (W - bg.width * scale) / 2, (H - bg.height * scale) / 2, bg.width * scale, bg.height * scale);
   const pieces = [...canvas.querySelectorAll('.piece')].sort((a, b) => a.style.zIndex - b.style.zIndex);
+  // The garden editor is hidden while the postcard is shown, so its pixel sizes read as 0.
+  // Use each sticker's saved percentages (left / top / width of the garden) instead.
   for (const p of pieces) {
     const img = await loadImg(p.querySelector('img').getAttribute('src'));
-    const w = p.offsetWidth * k, h = p.offsetHeight * k;
+    const w = parseFloat(p.style.width) / 100 * W, h = w * img.naturalHeight / img.naturalWidth;
+    const x = parseFloat(p.style.left) / 100 * W, y = parseFloat(p.style.top) / 100 * H;
     ctx.save();
-    ctx.translate((p.offsetLeft + p.offsetWidth / 2) * k, (p.offsetTop + p.offsetHeight / 2) * k);
+    ctx.translate(x + w / 2, y + h / 2);
     ctx.rotate(+p.dataset.r * Math.PI / 180);
     ctx.shadowColor = 'rgba(60,60,26,.28)'; ctx.shadowBlur = 9; ctx.shadowOffsetY = 6;
     ctx.drawImage(img, -w / 2, -h / 2, w, h);

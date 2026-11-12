@@ -32,7 +32,7 @@
       el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
       el.dataset.src = base + it.file; if (it.poster) el.poster = base + it.poster;   // loaded when scrolled near
       el.style.objectFit = it.fit || 'cover'; if (it.radius) el.style.setProperty('--r', cq(it.radius));
-    } else { el = document.createElement('img'); el.className = 'case-img'; el.src = base + it.file; el.alt = it.name || ''; el.loading = 'lazy'; el.decoding = 'async'; }
+    } else { el = document.createElement('img'); el.className = 'case-img'; el.src = it.file.startsWith('/') ? it.file : base + it.file; el.alt = it.name || ''; el.loading = 'lazy'; el.decoding = 'async'; }
     el.style.zIndex = Math.floor(it.z);
     host.appendChild(el);
     return el;

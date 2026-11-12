@@ -66,10 +66,16 @@ a{color:inherit;text-decoration:none}
 .about .blk{display:flex;flex-direction:column;gap:6px}
 .about p{font:400 11px/1.4 var(--sans)}
 
-.card{height:76px;padding:6.5px 20px;border-radius:16px;background:rgba(255,255,255,.62);filter:drop-shadow(0 3px 7px rgba(71,43,23,.06));display:flex}
-.vals{display:flex;flex:1}
-.val{flex:1 0 0;display:flex;flex-direction:column;gap:3px;padding:0 10px 0 12px;border-left:.6px solid var(--dark)}
+.card{height:76px;padding:12px 20px;border-radius:16px;background:rgba(255,255,255,.62);filter:drop-shadow(0 3px 7px rgba(71,43,23,.06));display:flex;align-items:center}
+.vals{display:flex;flex:1;align-items:center}
+.val{flex:1 0 0;display:flex;flex-direction:column;gap:4px;padding:0 10px;border-left:.5px solid var(--dark)}
 .val:first-child{padding-left:0;border-left:0}
+.val:last-child{padding-right:0}
+.val .vh{display:flex;align-items:center;gap:4px}
+.val:nth-child(1) p{width:123px}
+.val:nth-child(2) p{width:114px}
+/* column widths as Figma 105:352 (123.4 / 133.9 / 133.9 / 123.9) */
+.val:nth-child(1){flex:0 0 123.4px}.val:nth-child(2),.val:nth-child(3){flex:0 0 133.9px}.val:nth-child(4){flex:0 0 123.9px}.val{min-width:0}
 .val img{width:18px;height:18px}
 .val h4{font:700 10px/normal 'Afacad';letter-spacing:.4px}
 .val p{font:400 9px/13px var(--tc);color:var(--grey)}
@@ -235,10 +241,10 @@ a.crow:hover{transform:translateX(3px)}
         </div>
         <div class="card a" style="--d:1.5s">
           <div class="vals">
-            <div class="val a" style="--d:1.6s"><img src="assets/icon-sun.svg" alt=""><h4>PROACTIVE</h4><p>積極主動探索新工具與方法，持續學習。</p></div>
-            <div class="val a" style="--d:1.7s"><img src="assets/icon-target.svg" alt=""><h4>DEDICATED</h4><p>用心負責每一份專案並且扎實完成。</p></div>
-            <div class="val a" style="--d:1.8s"><img src="assets/icon-heart.svg" alt=""><h4>KIND &amp; PLAYFUL</h4><p>善於聆聽溝通與嘗試，性格善良溫暖偶爾帶點俏皮。</p></div>
-            <div class="val a" style="--d:1.9s"><img src="assets/icon-compass.svg" alt=""><h4>CURIOUS</h4><p>在生活與旅行中持續探索找到設計靈感。</p></div>
+            <div class="val a" style="--d:1.6s"><div class="vh"><img src="assets/icon-sun.svg" alt=""><h4>PROACTIVE</h4></div><p>積極主動探索新工具與方法，持續學習。</p></div>
+            <div class="val a" style="--d:1.7s"><div class="vh"><img src="assets/icon-target.svg" alt=""><h4>DEDICATED</h4></div><p>用心負責每一份專案並且扎實完成。</p></div>
+            <div class="val a" style="--d:1.8s"><div class="vh"><img src="assets/icon-heart.svg" alt=""><h4>KIND &amp; PLAYFUL</h4></div><p>善於聆聽溝通與嘗試，性格善良溫暖偶爾帶點俏皮。</p></div>
+            <div class="val a" style="--d:1.9s"><div class="vh"><img src="assets/icon-compass.svg" alt=""><h4>CURIOUS</h4></div><p>在生活與旅行中持續探索找到設計靈感。</p></div>
           </div>
         </div>
       </div>
@@ -325,7 +331,7 @@ a.crow:hover{transform:translateX(3px)}
               <div class="it" style="left:139.63px;top:105.71px;width:28px;height:28px"><div class="pop a pop2" style="--d:3.33s"><img src="assets/dumbbell.svg" width="28" height="28" alt=""></div></div>
               <div class="it" style="left:108.32px;top:132.36px;width:38.288px;height:38.288px"><div class="pop a pop2" style="--d:3.4s"><div class="crop" style="width:29px;height:29px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.12);transform:rotate(-24deg)"><img src="assets/photo4.jpg" style="height:177.87%;left:-3.28%;top:-49.24%;width:100%" alt=""></div></div></div>
               <div class="it" style="left:65.16px;top:147.78px;width:29px;height:29px"><div class="pop a pop2" style="--d:3.47s"><div class="crop" style="width:29px;height:29px"><img src="assets/pinterest-bg.svg" style="inset:0;width:100%;height:100%" alt=""><img src="assets/pinterest.svg" style="left:25.88%;top:25.26%;width:50.89%;height:65.84%" alt=""></div></div></div>
-              <div class="it" style="left:13.32px;top:121.36px;width:45.707px;height:45.387px"><a class="pop a pop2" style="--d:3.54s" href="https://www.skills.google/public_profiles/9a8b259b-dbf2-4c58-b58a-469ea7f74027/badges/27562091?locale=zh_TW&amp;trk=public_profile_see-credential" target="_blank" rel="noopener" title="Introduction to Generative AI · Google 證書"><div class="crop" style="width:33.849px;height:30.734px;transform:rotate(40.84deg)"><img src="assets/img3317.png" style="height:100%;left:-14.95%;top:0;width:129.9%" alt="Introduction to Generative AI 證書"></div></a></div>
+              <div class="it" style="left:13.32px;top:121.36px;width:45.707px;height:45.387px"><a class="pop a pop2" style="--d:3.54s" href="https://www.skills.google/public_profiles/9a8b259b-dbf2-4c58-b58a-469ea7f74027/badges/27562091?locale=zh_TW&amp;trk=public_profile_see-credential" target="_blank" rel="noopener" title="Introduction to Generative AI · Google 證書"><div class="crop" style="width:33.849px;height:30.734px;transform:rotate(40.84deg);background:#fff;border-radius:2px"><img src="assets/img3317.png" style="height:100%;left:-14.95%;top:0;width:129.9%" alt="Introduction to Generative AI 證書"></div></a></div>
               <div class="it" style="left:0;top:91.1px;width:28px;height:28px"><div class="pop a pop2" style="--d:3.61s"><img src="assets/mouse.svg" width="28" height="28" alt=""></div></div>
               <div class="it" style="left:-1.54px;top:42.54px;width:35.518px;height:35.518px"><div class="pop a pop2" style="--d:3.68s"><div class="crop" style="width:29px;height:29px;transform:rotate(15deg)"><img src="assets/claude-mascot.svg" style="left:0;top:12.34%;width:99.34%;height:80.41%" alt=""></div></div></div>
             </div>

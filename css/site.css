@@ -98,12 +98,13 @@ i{font-style:italic}
 .cfoot{background:#FFFDEF;padding:40px 0;display:flex;flex-direction:column;align-items:center;gap:40px;max-width:1440px;margin:0 auto}
 .cfoot-box{width:100%;height:320px;background:#F7F5EB;box-shadow:inset 0 0 0 1px #FAFAFA;display:flex;flex-direction:column;justify-content:space-between;align-items:center}
 .cfoot-nav{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;margin-top:1px}
-.cfoot-nav a{display:flex;align-items:center;gap:12px;font:400 16px/normal Alice,serif;color:#706E6B}
-.cfoot-nav a.prev{color:#3C3C1A}
-.cfoot-nav img{width:16px;height:16px}
-.cfoot-cta{font:400 48px/normal Alice,serif;color:#3C3C1A;text-align:center;margin-bottom:1px}
+/* footer type = Instrument Serif (Figma MG 219:1289 / AT 100:38); links light grey, dark on hover */
+.cfoot-nav a{display:flex;align-items:center;gap:12px;font:400 16px/normal var(--serif);color:#706E6B;transition:color .25s}
+.cfoot-nav a:hover,.cfoot-nav a:focus-visible{color:#3C3C1A}
+.cfoot-nav img,.cfoot-nav .arrow{width:16px;height:16px;flex:none}
+.cfoot-cta{font:400 48px/normal var(--serif);color:#3C3C1A;text-align:center;margin-bottom:1px}
 .cfoot-row{width:100%;display:flex;justify-content:space-between;align-items:center;padding:0 80px;height:40px}
-.cfoot-row p{font:400 20px/normal Alice,serif;color:#696931}
+.cfoot-row p{font:400 20px/normal var(--serif);color:#696931}
 .cfoot-row .replay{margin-left:20px;font:400 14px/1 var(--sans);letter-spacing:.6px;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px}
 .cfoot-row .icons{display:flex;gap:20px;align-items:center}
 .cfoot-row .icons img{width:30px;height:30px;object-fit:contain}
