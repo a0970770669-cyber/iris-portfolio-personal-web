@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iris Liu · Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;700&family=Instrument+Serif&family=Inter:wght@700&family=La+Belle+Aurore&family=Noto+Sans+TC:wght@400;500&family=TikTok+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark:#3C3C1A; --cream:#FFFDEF; --brown:#482C16; --grey:#706E6B; --paper:#F7F5EB; --terra:#C77B55;
+  --sans:'TikTok Sans','Noto Sans TC',sans-serif; --tc:'Noto Sans TC','TikTok Sans',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#E6E4D8;color:var(--dark);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;font-family:var(--sans)}
+a{color:inherit;text-decoration:none}
+
+/* ---------- toolbar ---------- */
+.bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;font-family:'Afacad',sans-serif;font-size:14px;letter-spacing:.04em}
+.bar b{font-weight:700}
+.bar .btns{display:flex;gap:8px}
+.bar button{font:inherit;font-weight:500;color:var(--dark);background:rgba(255,253,239,.7);border:1px solid var(--dark);border-radius:999px;padding:6px 14px;cursor:pointer;transition:background .2s,color .2s}
+.bar button:hover{background:var(--dark);color:var(--cream)}
+.bar .btns{align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.zoom{display:flex;align-items:center;gap:4px;margin-right:6px}
+.zoom button{padding:6px 11px}
+.zoom #zoomFit{padding:6px 14px}
+#zoomVal{min-width:44px;text-align:center;font-variant-numeric:tabular-nums}
+
+/* ---------- stage / A4 ---------- */
+.stage{margin:4px auto 32px;position:relative}
+.page{position:absolute;left:0;top:0;width:595px;height:842px;background:var(--paper);overflow:hidden;transform-origin:0 0;box-shadow:0 20px 60px rgba(60,60,26,.18),0 2px 6px rgba(60,60,26,.08)}
+.abs{position:absolute}
+
+.glow{left:-254px;top:-326px;width:845px;height:755px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.glow .rot{position:relative;transform:rotate(-90deg);flex:none;width:755px;height:845px}
+/* same as Figma "Glow · Sage Circle": linear gradient, layer blur 14, monotone noise 18% */
+.glow .inner,.glow .noise{position:absolute;inset:0;border-radius:50%}
+.glow .inner{background:linear-gradient(228.2deg,#A9B4C0 0%,#B7BECF 22%,#E0DDD2 50%,#F2F3EE 78%,rgba(242,243,238,0) 100%);filter:blur(7px)}
+.glow .noise{background-size:128px 128px;
+  -webkit-mask-image:radial-gradient(ellipse closest-side,#000 92%,transparent 100%),linear-gradient(228.2deg,#000 78%,transparent 100%);-webkit-mask-composite:source-in;
+  mask-image:radial-gradient(ellipse closest-side,#000 92%,transparent 100%),linear-gradient(228.2deg,#000 78%,transparent 100%);mask-composite:intersect}
+
+.main{left:0;top:0;width:595px;height:842px;display:flex;flex-direction:column;justify-content:center}
+.top{display:flex;flex-direction:column;align-items:flex-end;gap:12px;padding:20px;width:100%}
+.nav{display:flex;justify-content:space-between;align-items:center;width:100%}
+.pill{position:relative;width:84px;height:26px}
+.pill svg{position:absolute;inset:0;overflow:visible}
+.pill span{position:absolute;left:12px;top:7px;font:500 9px/normal 'Afacad';letter-spacing:.36px;white-space:nowrap}
+.loc{font:500 9px/26px 'Afacad';letter-spacing:-.2px;white-space:nowrap}
+
+.hero{position:relative;width:100%;height:120px}
+.name{left:0;top:0;font:700 120px/112px 'Inter';color:var(--cream);letter-spacing:-7.2px;white-space:nowrap}
+.name span{display:inline-block}
+.script{left:221px;top:67.09px;width:219.138px;height:52.783px;display:flex;align-items:center;justify-content:center}
+.script p{transform:rotate(-5deg);font:32px/34px 'La Belle Aurore';color:var(--brown);white-space:nowrap}
+.portrait{left:449px;top:0;width:85px;height:120px;border-radius:48px;overflow:hidden}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.portrait:hover img{transform:scale(1.06)}
+
+.label{font:700 12px/normal 'Afacad';letter-spacing:.48px;white-space:nowrap}
+.about{display:flex;flex-direction:column;gap:12px;width:100%}
+.about .blk{display:flex;flex-direction:column;gap:6px}
+.about p{font:400 11px/1.4 var(--sans)}
+
+.card{height:76px;padding:6.5px 20px;border-radius:16px;background:rgba(255,255,255,.62);filter:drop-shadow(0 3px 7px rgba(71,43,23,.06));display:flex}
+.vals{display:flex;flex:1}
+.val{flex:1 0 0;display:flex;flex-direction:column;gap:3px;padding:0 10px 0 12px;border-left:.6px solid var(--dark)}
+.val:first-child{padding-left:0;border-left:0}
+.val img{width:18px;height:18px}
+.val h4{font:700 10px/normal 'Afacad';letter-spacing:.4px}
+.val p{font:400 9px/13px var(--tc);color:var(--grey)}
+
+.bottom{position:relative;width:100%;height:477px}
+.left{left:0;top:0;width:377px;height:477px;padding:20px;display:flex;flex-direction:column;gap:20px}
+.vline{position:absolute;right:0;top:0;width:.5px;height:100%;background:var(--dark);transform-origin:top}
+.edu{display:flex;flex-direction:column;gap:4px;width:100%}
+.row{display:flex;justify-content:space-between;align-items:flex-start;white-space:nowrap}
+.school{font:500 11px/11px var(--tc)}
+.date{font:400 9px/13.2px var(--sans)}
+.exp{display:flex;flex-direction:column;gap:7px}
+.entry{display:flex;gap:8px;align-items:flex-start}
+.entry .when{width:60px;flex:none;display:flex;justify-content:center}
+.entry .when .date{width:57px}
+.marker{align-self:stretch;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:2.5px}
+.marker .dot{position:relative;width:5px;height:5px;border-radius:50%;background:var(--dark);border:.6px solid var(--cream);flex:none;transition:background .35s,border-color .35s,box-shadow .35s}
+.marker .dot::after{content:"";position:absolute;inset:-3px;border-radius:50%;background:radial-gradient(circle,rgba(255,216,102,.55),rgba(255,216,102,0) 70%);opacity:0;transition:opacity .35s}
+.entry:hover .marker .dot{background:#FFD866;border-color:#FFF9E3;box-shadow:0 0 4px 1.5px rgba(255,210,90,.9),0 0 10px 3px rgba(255,225,130,.45)}
+.entry:hover .marker .dot::after{opacity:1;animation:halo 1.8s ease-in-out infinite}
+.marker .ln{flex:1 0 0;width:.6px;background:var(--dark);transform-origin:top}
+.body{flex:1;display:flex;flex-direction:column;gap:8px;padding:8px 0}
+.title{font:600 11px/12.8px var(--sans);white-space:nowrap}
+.title.tc{font:500 11px/12.8px var(--tc)}
+.desc{font:400 10px/13.6px var(--tc)}
+.desc .en{font-family:'TikTok Sans',sans-serif}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{border:.6px solid var(--dark);border-radius:10px;padding:1.5px 7px;font:400 9px/10.9px var(--sans);color:var(--grey);white-space:nowrap}
+
+.right{left:377px;top:1px;width:218px;height:476px;display:flex;flex-direction:column}
+.rtop{display:flex;flex-direction:column;gap:12px;padding:20px 20px 0}
+.info{display:flex;flex-direction:column;gap:6px}
+.lines{display:flex;flex-direction:column;gap:4px;font-size:9px;line-height:12px;letter-spacing:.18px}
+.lines .tc{font-family:var(--tc);font-weight:500}
+.lines .m{font-family:'TikTok Sans';font-weight:500;white-space:pre}
+.lines .sb{font-family:'TikTok Sans';font-weight:600}
+.contact{display:flex;flex-direction:column;gap:6px}
+.chead{position:relative;width:124.5px;height:19.56px}
+.chead .label{position:absolute;left:0;top:1.78px}
+.chead svg{position:absolute;left:-5px;top:0;width:49px;height:20px;overflow:visible}
+.crow{display:flex;gap:8px;align-items:center;font:500 9px/12px 'TikTok Sans';letter-spacing:.18px;white-space:nowrap;transition:transform .25s var(--ease)}
+.crow.sb{font-weight:600}
+a.crow:hover{transform:translateX(3px)}
+.crow .ic{width:16px;height:16px;flex:none;position:relative}
+.crow .ic img{position:absolute;inset:0;width:100%;height:100%}
+.crow .ic.ig img{inset:1.4px;width:13.2px;height:13.2px}
+.qrwrap{display:flex;justify-content:flex-end;padding:0 20px}
+.qr{display:flex;flex-direction:column;gap:2px;align-items:center}
+.qr .code{position:relative;width:40px;height:40px;overflow:hidden;transition:transform .4s var(--ease)}
+.qr .code img{width:100%;height:100%;display:block}
+.qr .code::after{content:"";position:absolute;left:0;right:0;height:6px;top:-8px;background:linear-gradient(180deg,transparent,rgba(185,204,198,.95),transparent);animation:scan 3.2s 3.6s ease-in-out infinite}
+.qr:hover .code{transform:scale(1.5)}
+.qr small{font:500 8px/10px 'TikTok Sans';white-space:nowrap}
+
+.orbitArea{flex:1 0 0;display:flex;align-items:center;justify-content:center;padding:20px 0;min-height:0}
+.orbit{position:relative;top:-2px;width:174.64px;height:178.73px}
+.ring{position:absolute;inset:0}
+.it{position:absolute;display:flex;align-items:center;justify-content:center;animation:float 6s ease-in-out infinite;animation-delay:var(--fd,0s)}
+.orbit:hover .it{animation-play-state:paused}
+.it .pop{display:block;transition:transform .35s var(--ease)}
+.it a.pop{cursor:pointer}
+.it:hover .pop{transform:scale(1.25)}
+.it img{display:block}
+.crop{position:relative;overflow:hidden}
+.crop img{position:absolute;max-width:none}
+.center{left:32.32px;top:65.36px;display:flex;flex-direction:column;align-items:center;white-space:nowrap;text-align:center}
+.center .t1{font:15px/15px 'Instrument Serif'}
+.center .t2{font:15px/16px 'Instrument Serif';color:var(--grey)}
+.center .t3{font:400 7px/9.3px 'TikTok Sans';color:var(--grey)}
+
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-2.5px) rotate(2deg)}}
+@keyframes scan{0%{top:-8px}50%{top:42px}100%{top:42px}}
+@keyframes halo{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+
+/* ---------- entrance motion ---------- */
+.a{opacity:0}
+.play .a{animation:up .9s var(--ease) both;animation-delay:var(--d,0s)}
+.play .a.fade{animation-name:fade}
+.play .a.pop2{animation-name:pop;animation-duration:.7s}
+.name span{opacity:0}
+.play .name span{animation:letter 1s var(--ease) both;animation-delay:var(--d)}
+.script p{clip-path:inset(-30% 100% -60% -5%)}
+.play .script p{animation:write 1.6s cubic-bezier(.45,.05,.3,1) 1s both}
+.portrait{clip-path:inset(100% 0 0 0 round 48px)}
+.play .portrait{animation:reveal 1.1s var(--ease) .45s both}
+.play .portrait img{animation:zoom 1.6s var(--ease) .45s both}
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+.play .draw{animation:draw 1.2s ease-in-out both;animation-delay:var(--d)}
+.vline,.marker .ln{transform:scaleY(0)}
+.play .vline,.play .marker .ln{animation:grow 1.2s var(--ease) both;animation-delay:var(--d)}
+.marker .dot{transform:scale(0)}
+.play .marker .dot{animation:dot .5s var(--ease) both;animation-delay:var(--d)}
+
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{opacity:0;transform:scale(.3)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes letter{from{opacity:0;transform:translateY(46px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes write{to{clip-path:inset(-30% -10% -60% -5%)}}
+@keyframes reveal{to{clip-path:inset(0 0 0 0 round 48px)}}
+@keyframes zoom{from{transform:scale(1.25)}to{transform:scale(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes grow{to{transform:scaleY(1)}}
+@keyframes dot{0%{transform:scale(0)}70%{transform:scale(1.6)}100%{transform:scale(1)}}
+
+@media (prefers-reduced-motion:reduce){
+  .a,.name span{opacity:1!important;animation:none!important}
+  .script p,.portrait{clip-path:none!important;animation:none!important}
+  .draw{stroke-dashoffset:0!important;animation:none!important}
+  .vline,.marker .ln,.marker .dot{transform:none!important;animation:none!important}
+  .it,.qr .code::after{animation:none!important}
+}
+
+/* ---------- print: plain A4 ---------- */
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:none}
+  .bar{display:none}
+  .stage{margin:0;width:595px!important;height:842px!important}
+  .page{transform:none!important;box-shadow:none;width:210mm;height:297mm;zoom:1}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .a,.name span{opacity:1!important;animation:none!important;transform:none!important;filter:none!important}
+  .script p,.portrait{clip-path:none!important;animation:none!important}
+  .draw{stroke-dashoffset:0!important;animation:none!important}
+  .vline,.marker .ln,.marker .dot{transform:none!important;animation:none!important}
+  .it{animation:none!important}
+  .qr .code::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div><b>Iris Liu</b> · Résumé</div>
+  <div class="btns">
+    <div class="zoom"><button id="zoomOut" aria-label="縮小">－</button><span id="zoomVal">100%</span><button id="zoomIn" aria-label="放大">＋</button><button id="zoomFit">符合畫面</button></div>
+    <button id="replay">重播動畫</button><button id="print">列印 / 存成 PDF</button>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+<div class="page" id="page">
+  <div class="abs glow"><div class="rot"><div class="inner"></div><div class="noise"></div></div></div>
+
+  <div class="abs main">
+    <div class="top">
+      <div class="nav">
+        <div class="pill">
+          <svg viewBox="0 0 84 26"><ellipse class="draw" style="--d:.2s" pathLength="1" cx="42" cy="13" rx="41.65" ry="12.65" fill="none" stroke="#3C3C1A" stroke-width=".7"/></svg>
+          <span class="a fade" style="--d:.5s">UI / UX DESIGN</span>
+        </div>
+        <div class="loc a fade" style="--d:.6s">Taipei, Taiwan</div>
+      </div>
+
+      <div class="hero">
+        <div class="abs name" id="name">Iris Liu</div>
+        <div class="abs script"><p>ui / ux designer</p></div>
+        <div class="abs portrait"><img src="assets/portrait.jpg" alt="Iris Liu 劉冠萱"></div>
+      </div>
+
+      <div class="about">
+        <div class="blk">
+          <div class="label scr a fade" style="--d:1.2s">ABOUT</div>
+          <p class="a" style="--d:1.3s">Hi, I'm Iris 劉冠萱，個性積極、用心負責、善良。過去四年於台北花藝設計公司從事花藝設計，接觸大量異材質結合的媒材設計，與民眾及不同商業領域合作；從生活美學出發，開始對使用者思考與生活體驗感到好奇，進而投入 UI / UX 設計。</p>
+        </div>
+        <div class="card a" style="--d:1.5s">
+          <div class="vals">
+            <div class="val a" style="--d:1.6s"><img src="assets/icon-sun.svg" alt=""><h4>PROACTIVE</h4><p>積極主動探索新工具與方法，持續學習。</p></div>
+            <div class="val a" style="--d:1.7s"><img src="assets/icon-target.svg" alt=""><h4>DEDICATED</h4><p>用心負責每一份專案並且扎實完成。</p></div>
+            <div class="val a" style="--d:1.8s"><img src="assets/icon-heart.svg" alt=""><h4>KIND &amp; PLAYFUL</h4><p>善於聆聽溝通與嘗試，性格善良溫暖偶爾帶點俏皮。</p></div>
+            <div class="val a" style="--d:1.9s"><img src="assets/icon-compass.svg" alt=""><h4>CURIOUS</h4><p>在生活與旅行中持續探索找到設計靈感。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="abs left">
+        <div class="vline" style="--d:1.9s"></div>
+        <div class="edu">
+          <div class="label scr a fade" style="--d:2s">EDUCATION</div>
+          <div class="row a" style="--d:2.05s"><span class="school">實踐大學 時尚設計學系</span><span class="date">2016 — 2020</span></div>
+        </div>
+        <div class="exp">
+          <div class="label scr a fade" style="--d:2.15s">EXPERIENCE</div>
+          <div>
+            <div class="entry">
+              <div class="when a fade" style="--d:2.25s"><span class="date">2025 — Now</span></div>
+              <div class="marker"><span class="dot" style="--d:2.25s"></span><span class="ln" style="--d:2.3s"></span></div>
+              <div class="body" style="flex:none;width:256px">
+                <div class="title a" style="--d:2.3s">UI / UX Designer</div>
+                <p class="desc a" style="--d:2.38s">以<span class="en"> Design Thinking </span>結合<span class="en"> Claude Code </span>等<span class="en"> AI </span>工具完成完整專案：使用者研究、<span class="en">IA</span>、<span class="en">User Flow</span>、<span class="en">Wireframe </span>到<span class="en"> Design System </span>與高保真原型，獨立設計並上線生活美學向上學習平台以及個人作品集網站。</p>
+                <div class="tags" style="width:255px">
+                  <span class="tag a pop2" style="--d:2.5s">生活美學網頁</span><span class="tag a pop2" style="--d:2.55s">線上學習平台 Redesign</span><span class="tag a pop2" style="--d:2.6s">使用者研究</span><span class="tag a pop2" style="--d:2.65s">Portfolio Website</span><span class="tag a pop2" style="--d:2.7s">高保真互動原型</span>
+                </div>
+              </div>
+            </div>
+            <div class="entry">
+              <div class="when a fade" style="--d:2.55s"><span class="date" style="width:61px">2022 — 2026</span></div>
+              <div class="marker"><span class="dot" style="--d:2.55s"></span><span class="ln" style="--d:2.6s"></span></div>
+              <div class="body">
+                <div class="title tc a" style="--d:2.6s">美樹館裏設計股份有限公司</div>
+                <div class="desc a" style="--d:2.68s"><p>擔任花藝設計師，為日常花禮、商業空間與品牌合作規劃花藝設計，結合異材質媒材與植物裝置藝術，與客戶溝通需求、提案到完成交付，在創作與商業之間取得平衡。</p><p><span class="en">/ 2023 </span>為服飾品牌<span class="en"> DOE </span>製作「倒掛聖誕樹」主題裝置；<span class="en">2024 </span>開發居家植物裝置系列。</p></div>
+                <div class="tags"><span class="tag a pop2" style="--d:2.8s">裝置佈置</span><span class="tag a pop2" style="--d:2.85s">顧客需求訪談</span><span class="tag a pop2" style="--d:2.9s">視覺美學</span></div>
+              </div>
+            </div>
+            <div class="entry">
+              <div class="when a fade" style="--d:2.85s"><span class="date">2018 — 2019</span></div>
+              <div class="marker"><span class="dot" style="--d:2.85s"></span><span class="ln" style="--d:2.9s"></span></div>
+              <div class="body">
+                <div class="title tc a" style="--d:2.9s">ESG 永續服裝設計 跨領域創新參展</div>
+                <p class="desc a" style="--d:2.98s">於<span class="en"> 2018 </span>參與台南老爺行旅舉辦的跨域創新展覽「七迌人」，以環保素材石頭紙製作時尚服裝，探討異材質於<span class="en"> ESG </span>永續時尚中的應用。</p>
+                <div class="tags"><span class="tag a pop2" style="--d:3.1s">ESG Fashion</span><span class="tag a pop2" style="--d:3.15s">Fashion Design</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="abs right">
+        <div class="rtop">
+          <div class="info">
+            <div class="label scr a fade" style="--d:2.1s">INFORMATION</div>
+            <div class="lines a" style="--d:2.2s">
+              <div><span class="tc">劉冠萱</span> <span class="sb">Iris Liu</span></div>
+              <div class="m">1998 . 06 . 02  ( 28y )</div>
+              <div class="tc">台北市大安區建國南路一段</div>
+            </div>
+          </div>
+          <div class="contact">
+            <div class="chead">
+              <div class="label a fade" style="--d:2.35s">Contact</div>
+              <svg viewBox="0 0 50.0613 21.0609"><path class="draw" style="--d:2.45s" pathLength="1" d="M3.95768 14.4981C2.00168 9.10958 5.16382 4.0826 14.712 1.80399M14.712 1.80399C17.0232 1.25245 19.7085 0.86193 22.7859 0.666285C38.5774 -0.22609 48.9025 3.34341 49.5099 9.47849C50.1173 16.1713 37.3626 20.2985 22.1786 20.5216C8.20922 20.7447 0.00981623 16.729 0.556443 10.7055C1.03837 5.6162 7.49525 2.72159 14.712 1.80399ZM14.712 1.80399C14.7714 1.79644 14.8308 1.78903 14.8902 1.78175" fill="none" stroke="#C77B55" stroke-width="1.06" stroke-linecap="round"/></svg>
+            </div>
+            <a class="crow a" style="--d:2.55s" href="mailto:a0970770669@gmail.com"><span class="ic"><img src="assets/mail.svg" alt=""></span>a0970770669@gmail.com</a>
+            <a class="crow a" style="--d:2.62s" href="tel:0970770669"><span class="ic"><img src="assets/phone.svg" alt=""></span>0970 770 669</a>
+            <a class="crow a" style="--d:2.69s" href="https://tw.linkedin.com/in/iris-liu-b192a8406" target="_blank" rel="noopener"><span class="ic"><img src="assets/linkedin.svg" alt=""></span>Iris Liu</a>
+            <a class="crow a" style="--d:2.76s" href="https://www.instagram.com/imirisiam/" target="_blank" rel="noopener"><span class="ic ig"><img src="assets/instagram.svg" alt=""></span>@imirisiam</a>
+          </div>
+          <div class="qrwrap">
+            <a class="qr a pop2" style="--d:2.9s" href="https://iris-portfolio-personal-web.vercel.app" target="_blank" rel="noopener">
+              <span class="code"><img src="assets/qr.svg" alt="作品集網站 QR code"></span><small>Portfolio Web.</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="orbitArea">
+          <div class="orbit">
+            <div class="abs center a fade" style="--d:3s"><div class="t1">Toolkit</div><div class="t2">&amp; Interest</div><div class="t3">From Aesthetic Living to Digital<br>2025 → now.</div></div>
+            <div class="ring">
+              <div class="it" style="left:28px;top:13px;width:35px;height:35px"><div class="pop a pop2" style="--d:3.05s;filter:drop-shadow(0 2px 2.5px rgba(0,0,0,.12))"><img src="assets/claude-starburst.svg" width="35" height="35" alt=""></div></div>
+              <div class="it" style="left:73.32px;top:.36px;width:36px;height:38px"><a class="pop a pop2" style="--d:3.12s" href="https://academy.claude.com/verify/874959fe199506000a479cead46508bc?trk=public_profile_see-credential" target="_blank" rel="noopener" title="Introduction to Claude Cowork · 證書"><div class="crop" style="width:36px;height:38px"><img src="assets/img3314.png" style="height:111.49%;left:-33.09%;top:-4.73%;width:166.19%" alt="Introduction to Claude Cowork 證書"></div></a></div>
+              <div class="it" style="left:117.54px;top:11.36px;width:40.982px;height:42.521px"><a class="pop a pop2" style="--d:3.19s" href="https://academy.claude.com/verify/b2e3079a82af97ed09512054d3e5a33d?trk=public_profile_see-credential" target="_blank" rel="noopener" title="Claude 101 · 證書"><div class="crop" style="width:35.202px;height:37.088px;transform:rotate(9.77deg)"><img src="assets/img3316.png" style="height:124.1%;left:-39.03%;top:-12.05%;width:178.07%" alt="Claude 101 證書"></div></a></div>
+              <div class="it" style="left:141.04px;top:56.55px;width:33.595px;height:33.595px"><div class="pop a pop2" style="--d:3.26s"><img src="assets/figma.svg" width="29" height="29" style="transform:rotate(-10deg)" alt=""></div></div>
+              <div class="it" style="left:139.63px;top:105.71px;width:28px;height:28px"><div class="pop a pop2" style="--d:3.33s"><img src="assets/dumbbell.svg" width="28" height="28" alt=""></div></div>
+              <div class="it" style="left:108.32px;top:132.36px;width:38.288px;height:38.288px"><div class="pop a pop2" style="--d:3.4s"><div class="crop" style="width:29px;height:29px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.12);transform:rotate(-24deg)"><img src="assets/photo4.jpg" style="height:177.87%;left:-3.28%;top:-49.24%;width:100%" alt=""></div></div></div>
+              <div class="it" style="left:65.16px;top:147.78px;width:29px;height:29px"><div class="pop a pop2" style="--d:3.47s"><div class="crop" style="width:29px;height:29px"><img src="assets/pinterest-bg.svg" style="inset:0;width:100%;height:100%" alt=""><img src="assets/pinterest.svg" style="left:25.88%;top:25.26%;width:50.89%;height:65.84%" alt=""></div></div></div>
+              <div class="it" style="left:13.32px;top:121.36px;width:45.707px;height:45.387px"><a class="pop a pop2" style="--d:3.54s" href="https://www.skills.google/public_profiles/9a8b259b-dbf2-4c58-b58a-469ea7f74027/badges/27562091?locale=zh_TW&amp;trk=public_profile_see-credential" target="_blank" rel="noopener" title="Introduction to Generative AI · Google 證書"><div class="crop" style="width:33.849px;height:30.734px;transform:rotate(40.84deg)"><img src="assets/img3317.png" style="height:100%;left:-14.95%;top:0;width:129.9%" alt="Introduction to Generative AI 證書"></div></a></div>
+              <div class="it" style="left:0;top:91.1px;width:28px;height:28px"><div class="pop a pop2" style="--d:3.61s"><img src="assets/mouse.svg" width="28" height="28" alt=""></div></div>
+              <div class="it" style="left:-1.54px;top:42.54px;width:35.518px;height:35.518px"><div class="pop a pop2" style="--d:3.68s"><div class="crop" style="width:29px;height:29px;transform:rotate(15deg)"><img src="assets/claude-mascot.svg" style="left:0;top:12.34%;width:99.34%;height:80.41%" alt=""></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(() => {
+  const page = document.getElementById('page'), stage = document.getElementById('stage');
+  // split name into letters
+  const name = document.getElementById('name');
+  name.innerHTML = [...name.textContent].map((c, i) => `<span style="--d:${(0.3 + i * 0.07).toFixed(2)}s">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+
+  // orbit items stay on their Figma spots and float gently, each a little out of step
+  document.querySelectorAll('.ring .it').forEach((it, i) => it.style.setProperty('--fd', (-i * 0.7) + 's'));
+
+  // glow noise, like Figma's monotone noise (size .6, 18% of rgb(51,64,59))
+  (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 256;
+    const x = c.getContext('2d'), d = x.createImageData(256, 256);
+    for (let i = 0; i < d.data.length; i += 4) {
+      if (Math.random() < 0.07) { d.data[i] = 51; d.data[i + 1] = 64; d.data[i + 2] = 59; d.data[i + 3] = 46; }
+    }
+    x.putImageData(d, 0, 0);
+    document.querySelector('.glow .noise').style.backgroundImage = `url(${c.toDataURL()})`;
+  })();
+
+  // fit A4 to window, plus zoom
+  const zoomOut = document.getElementById('zoomOut'), zoomIn = document.getElementById('zoomIn'), zoomFit = document.getElementById('zoomFit'), zoomVal = document.getElementById('zoomVal');
+  let zoom = null; // null = fit to window
+  const fitScale = () => Math.max(0.4, Math.min((innerWidth - 32) / 595, (innerHeight - 80) / 842, 2));
+  function fit() {
+    const s = zoom ?? fitScale();
+    page.style.transform = `scale(${s})`;
+    stage.style.width = 595 * s + 'px'; stage.style.height = 842 * s + 'px';
+    zoomVal.textContent = Math.round(s * 100) + '%';
+  }
+  function setZoom(s, cx, cy) {
+    const old = zoom ?? fitScale();
+    s = Math.min(4, Math.max(0.4, s));
+    // keep the point under the cursor (or the screen centre) in place
+    const r = stage.getBoundingClientRect();
+    const px = (cx ?? innerWidth / 2) - r.left, py = (cy ?? innerHeight / 2) - r.top;
+    zoom = s; fit();
+    const k = s / old;
+    scrollBy(px * k - px - (stage.getBoundingClientRect().left - r.left), py * k - py - (stage.getBoundingClientRect().top - r.top));
+  }
+  zoomIn.onclick = () => setZoom((zoom ?? fitScale()) * 1.25);
+  zoomOut.onclick = () => setZoom((zoom ?? fitScale()) / 1.25);
+  zoomFit.onclick = () => { zoom = null; fit(); scrollTo(0, 0); };
+  addEventListener('wheel', e => {
+    if (!e.ctrlKey && !e.metaKey) return; // pinch on trackpad, or ctrl/⌘ + scroll
+    e.preventDefault();
+    setZoom((zoom ?? fitScale()) * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY);
+  }, { passive: false });
+  addEventListener('keydown', e => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    if (e.key === '=' || e.key === '+') { e.preventDefault(); zoomIn.onclick(); }
+    else if (e.key === '-') { e.preventDefault(); zoomOut.onclick(); }
+    else if (e.key === '0') { e.preventDefault(); zoomFit.onclick(); }
+  });
+  addEventListener('resize', fit); fit();
+
+  // scramble labels
+  const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/#_<>';
+  function scramble(el) {
+    const final = el.dataset.t || (el.dataset.t = el.textContent);
+    const delay = parseFloat(getComputedStyle(el).getPropertyValue('--d')) * 1000 || 0;
+    clearInterval(el._t); clearTimeout(el._w);
+    el._w = setTimeout(() => {
+      let f = 0; const total = 14;
+      el._t = setInterval(() => {
+        f++;
+        el.textContent = [...final].map((c, i) => (c === ' ' || i < (f / total) * final.length) ? c : glyphs[Math.random() * glyphs.length | 0]).join('');
+        if (f >= total) { clearInterval(el._t); el.textContent = final; }
+      }, 40);
+    }, delay);
+  }
+
+  function play() {
+    document.body.classList.remove('play'); void document.body.offsetWidth;
+    document.body.classList.add('play');
+    document.querySelectorAll('.scr').forEach(scramble);
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(play); else play();
+  document.getElementById('replay').onclick = play;
+  document.getElementById('print').onclick = () => print();
+
+})();
+</script>
+</body>
+</html>
